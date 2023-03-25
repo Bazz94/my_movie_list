@@ -1,22 +1,35 @@
-<?php
+<!DOCTYPE html>
+<html land="en">
 
-$connect = mysql_connect(
-    'db',
-    'user',
-    'password',
-    'my_movie_list'
-);
+<head>
+    <title>My Movie List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/login.css">
+</head>
 
-$query = 'SELECT * FROM a_table';
-$result = mysql_query($connect, $query);
+<body>
+    <center>
+        <h1>My Movie List</h1>
+        <form action=" "></form>
+    </center>
+    <form action="action_page.php" method="post">
 
-echo '<h1>MySQL Content:</h1>';
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
 
-while($record = mysql_fetch_assoc($result)) {
-    echo '<h2>'.$record['title'].'</h2>';
-    echo '<p>'.$record['title'].'</p>';
-    echo 'List: ' .$record['title'];
-    echo '<hr>';
-}
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
 
-//Database table still needs to be created
+            <button type="submit">Login</button>
+            <label id="rememberme">
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+        </div>
+            <span class="psw"> <a href="#">Forgot password?</a></span>
+        </div>
+    </form>
+</body>
+
+</html>

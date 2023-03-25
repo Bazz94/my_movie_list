@@ -1,0 +1,71 @@
+body {
+    background-color: rgba(40, 40, 40, 255);
+}
+
+h1 {
+    color: white;
+    font-size: 50px;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}
+
+p {
+    color: red;
+}
+
+form {
+
+    padding: 50px;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    width: clamp(200px, 50%, 600px);
+}
+
+label {
+    font-size: 24px;
+    color: white;
+}
+
+/* Full-width inputs */
+input[type=text],
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+    background-color: rgb(192, 189, 0);
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Add a hover effect for buttons */
+button:hover {
+    opacity: 0.8;
+}
+
+rememberme{
+    color: #000;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+}
