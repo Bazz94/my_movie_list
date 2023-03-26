@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My Movie List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/theme.css">
+    <link rel="stylesheet" href="../styles/login.css">
+</head>
+
+<body>
+    <div class="row" id="content">
+        <div class="column">
+            <div class="center-title-background">
+                <h1 id="title1">My Movie</h1>
+                <h1 id="title2">List</h1>
+            </div>
+            <form action="services/authenticate.php" method="post">
+                <div class="column" id="form-column">
+                    <label class="labels" for="email"><b>Email</b></label>
+                    <input type="text" placeholder="Enter Email" name="email" id="email" required>
+                    <label class="labels" for="password"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="password" id="password" required>
+                    <button type="submit">Login</button>
+                    <a id="ref" href="#">Forgot password?</a>
+                </div>
+            </form>
+        </div>
+        <div class="column">
+            <div class="center" id="community-ranking-container">
+                <h2>Community Ranking</h2>
+                <hr>
+                </hr>
+            </div>
+            <div class="center" id="center-grid">
+                <div class="grid-container">
+                    <!-- php prints 9 grids -->
+                    <div class="movie-container">
+                        <h3>1</h3>
+                        <img src="../movie_poster.png" alt="">
+                    </div>
+                    <div class="movie-container">
+                        <h3>1</h3>
+                        <img src="../movie_poster.png" alt="">
+                    </div>
+                    <div class="movie-container">
+                        <h3>1</h3>
+                        <img src="../movie_poster.png" alt="">
+                    </div>
+                    <div class="movie-container">
+                        <h3>1</h3>
+                        <img src="../movie_poster.png" alt="">
+                    </div>
+                    <div class="movie-container">
+                        <h3>1</h3>
+                        <img src="../movie_poster.png" alt="">
+                    </div>
+                    <div class="movie-container">
+                        <h3>1</h3>
+                        <img src="../movie_poster.png" alt="">
+                    </div>
+                    <div class="movie-container">
+                        <h3>1</h3>
+                        <img src="../movie_poster.png" alt="">
+                    </div>
+                    <div class="movie-container">
+                        <h3>1</h3>
+                        <img src="../movie_poster.png" alt="">
+                    </div>
+                    <div class="movie-container">
+                        <h3>1</h3>
+                        <img src="../movie_poster.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
