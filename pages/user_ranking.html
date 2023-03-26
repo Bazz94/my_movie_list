@@ -1,5 +1,14 @@
+<!-- <?php
+// We need to use sessions, so you should always start sessions using the below code.
+session_start();
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: index.php');
+	exit;
+}
+?> -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <title>My Movie List</title>
@@ -7,35 +16,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../images/favicon.png">
     <link rel="stylesheet" href="../styles/theme.css">
-    <link rel="stylesheet" href="../styles/login.css">
+    <link rel="stylesheet" href="../styles/user_ranking.css">
 </head>
 
-<body>
-    <main class="row" id="content">
-        <section class="column" id="left-section">
-            <section class="center-title-background">
-                <h1 id="title1">My Movie</h1>
-                <h1 id="title2">List</h1>
-            </section>
-            <section id="login-form">
-                <form action="services/authenticate.php" method="post">
-                    <div class="column" id="form-column">
-                        <label class="labels" for="email"><b>Email</b></label>
-                        <input type="text" placeholder="Enter Email" name="email" id="email" required>
-                        <label class="labels" for="password"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="password" id="password" required>
-                        <button type="submit">Login</button>
-                        <a id="ref" href="#">Forgot password?</a>
-                    </div>
-                </form>
-            </section>
-        </section>
-        <section class="column">
-            <section class="center" id="community-ranking-container">
-                <h2>Community Ranking</h2>
-                <hr>
-            </section>
-            <section class="center" id="center-grid">
+<body class="column">
+    <header>
+        <nav class="row" id="navbar">
+            <a id="nav-title" href="home.php">My Movie List</a>
+            <div class="nav-space1">
+            </div>
+            <button class="nav-buttons" id="middle-button" onclick="window.location.href='';">
+                Community Ranking
+            </button>
+            <button class="nav-buttons" id="last-nav-button" onclick="window.location.href='';">
+                Logout
+            </button>
+
+        </nav>
+    </header>
+    <main>
+        <div class="center-title-background">
+            <h1>Usernames Ranking:</h1>
+        </div>
+        <div class="row">
+            <aside class="aside">
+                <div class="column" id="buttons-column">
+                    <div class="col-space1"></div>
+                    <!-- if Add has been pressed
+                        <input type="text" placeholder="Search a movie..." name="search" id="search" required>
+                    end -->
+                    <button onclick="window.location.href='';">
+                        Add
+                    </button>
+                    <button onclick="window.location.href='';">
+                        Edit
+                    </button>
+                    <button onclick="window.location.href='';">
+                        Remove
+                    </button>
+                    <div class="col-space1"></div>
+                </div>
+            </aside>
+            <section class="center">
                 <div class="grid-container">
                     <!-- php prints 9 grids -->
                     <div class="image-container">
@@ -83,10 +105,18 @@
                         <img class="image" src="../images/movie_poster.png" alt="">
                         <p class="image-text">All Quiet on the western front (2022)</p>
                     </div>
+                    <div class="image-container">
+                        <h3>1</h3>
+                        <img class="image" src="../images/movie_poster.png" alt="">
+                        <p class="image-text">All Quiet on the western front (2022)</p>
+                    </div>
                 </div>
             </section>
-        </section>
+        </div>
     </main>
+    <footer>
+        <label class="footer-label">Created by Bernard Olivier</label>
+    </footer>
 </body>
 
 </html>

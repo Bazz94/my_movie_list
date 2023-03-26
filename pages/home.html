@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 // We need to use sessions, so you should always start sessions using the below code.
 session_start();
 // If the user is not logged in redirect to the login page...
@@ -6,25 +6,101 @@ if (!isset($_SESSION['loggedin'])) {
 	header('Location: index.php');
 	exit;
 }
-?>
-
+?> -->
+<!DOCTYPE html>
 <html>
 
 <head>
-	<meta charset="utf-8">
 	<title>My Movie List</title>
-	<link href="../styles/home.css" rel="stylesheet" type="text/css">
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="../images/favicon.png">
+	<link rel="stylesheet" href="../styles/theme.css">
+	<link rel="stylesheet" href="../styles/home.css">
 </head>
 
-<body class="loggedin">
-	<nav class="navtop">
-		<div>
-			<h1>My Movie List</h1>
-			<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
-			<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
+<body class="column">
+	<header>
+		<nav class="row" id="navbar">
+			<a id="nav-title" href="home.php">My Movie List</a>
+			<div class="nav-space1"></div>
+			<!-- if signed out -->
+			<button onclick="window.location.href='';">
+				Login
+			</button>
+			<button id="last-nav-button" onclick="window.location.href='';">
+				Sign Up
+			</button>
+			<!-- else 
+			 	<button id="last-nav-button" onclick="window.location.href='';">
+					My Ranking
+				</button> 
+			-->
+		</nav>
+	</header>
+	<main>
+		<div class="center-title-background">
+			<h1>Community Ranking:</h1>
 		</div>
-	</nav>
+		<div class="center">
+			<div class="grid-container">
+				<!-- php prints 9 grids -->
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+				<div class="image-container">
+					<h3>1</h3>
+					<img class="image" src="../images/movie_poster.png" alt="">
+					<p class="image-text">All Quiet on the western front (2022)</p>
+				</div>
+			</div>
+		</div>
+	</main>
+	<footer>
+		<label class="footer-label">Created by Bernard Olivier</label>
+	</footer>
 </body>
 
 </html>
