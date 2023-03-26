@@ -1,1 +1,1 @@
-<?php require 'pages/login.php'?>
+<?php require 'pages/login.html'?>
