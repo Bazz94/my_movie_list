@@ -1,0 +1,6 @@
+# Hide app folder
+RewriteEngine On
+RewriteRule ^app/ - [F,L]
+
+# Allow public folder
+RewriteRule ^public/ - [L]
