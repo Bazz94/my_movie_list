@@ -1,9 +1,6 @@
 <?php
 //Constants
-define('DB_HOST', 'localhost');
-define('DB_USER', 'app');
-define('DB_PASS', '12345678');
-define('DB_NAME', 'my_movie_list');
+require('../app/constants.php');
 
 //Create connection
 $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);

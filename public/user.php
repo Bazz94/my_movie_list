@@ -1,5 +1,6 @@
 <?php
 // We need to use sessions, so you should always start sessions using the below code.
+require_once '../app/classes.php';
 session_start();
 
 // not logged in
@@ -10,6 +11,10 @@ if (!isset($_SESSION['loggedin'])) {
 if(isset($_POST['logout'])){
   echo "please log out";
   include('../app/logout.php'); // goes to home page
+}
+// Check if data is in SESSION movies
+if (!isset($_SESSION['movies'])) {
+  header('Location: index.php');
 }
 // first visit
 ?>
@@ -65,57 +70,20 @@ if(isset($_POST['logout'])){
       </aside>
       <section class="center">
         <div class="grid-container">
-          <!-- php prints 9 grids -->
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
+          <?php 
+            require_once '../app/classes.php';
+            for ($i = 0; $i < count($_SESSION['movies']); $i++) {
+              if ($i < 20) { //limits output
+                echo "
+                <div class=\"image-container\">
+                <h3></h3>
+                <img class=\"image\" src=\"imgs/movie_poster.png\" alt=\"\">
+                <p class=\"image-text\">" . $_SESSION['movies'][$i]->to_string() ."</p>
+                </div>
+                ";
+              }
+            }
+          ?>
         </div>
       </section>
     </div>

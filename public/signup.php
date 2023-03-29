@@ -1,3 +1,12 @@
+<?php
+require_once '../app/classes.php';
+session_start();
+
+if (!isset($_SESSION['movies'])) {
+  header('Location: index.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,52 +50,20 @@
       </section>
       <section class="center" id="center-grid">
         <div class="grid-container">
-          <!-- php prints 9 grids -->
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
-          <div class="image-container">
-            <h3>1</h3>
-            <img class="image" src="imgs/movie_poster.png" alt="">
-            <p class="image-text">All Quiet on the western front (2022)</p>
-          </div>
+          <?php 
+            require_once '../app/classes.php';
+            for ($i = 0; $i < count($_SESSION['movies']); $i++) {
+              if ($i < 9) { //limits output
+                echo "
+                <div class=\"image-container\">
+                <h3></h3>
+                <img class=\"image\" src=\"imgs/movie_poster.png\" alt=\"\">
+                <p class=\"image-text\">" . $_SESSION['movies'][$i]->to_string() ."</p>
+                </div>
+                ";
+              }
+            }
+          ?>
         </div>
       </section>
     </section>
