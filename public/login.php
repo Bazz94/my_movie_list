@@ -12,6 +12,10 @@ if (isset($_POST['email'], $_POST['password'])) {
     echo '<script>document.getElementById("popup-container").style.display = "block";</script>';
   }
 }
+// Check if data is in SESSION movies
+if (!isset($_SESSION['movies'])) {
+  header('Location: index.php');
+}
 // first visit
 ?>
 

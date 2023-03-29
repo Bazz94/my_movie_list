@@ -4,7 +4,7 @@ require_once('../app/classes.php');
 if (session_id() == '') {
     session_start();
 }
-// Check if data is in SESSION movies?
+// Check if data is in SESSION movies
 if (!isset($_SESSION['movies'])) {
   header('Location: index.php');
 }
