@@ -1,11 +1,8 @@
 <?php
-// Change this to your connection info.
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'app';
-$DATABASE_PASS = '12345678';
-$DATABASE_NAME = 'my_movie_list';
+// Get constants
+require('../app/constants.php');
 // Try and connect using the info above.
-$con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if (mysqli_connect_errno()) {
   // If there is an error with the connection, stop the script and display the error.
   $_SESSION['error'] = 'Failed to connect to MySQL: ' . mysqli_connect_error();

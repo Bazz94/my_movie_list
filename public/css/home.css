@@ -11,12 +11,12 @@ main {
 header {
   background-color: var(--red);
   width: 100%;
-  height: 50px;
+  height: 3rem;
   padding: auto;
 }
 
 h1 {
-  font-size: 38px;
+  font-size: 2.5rem;
   height: min-content;
   margin: auto;
   letter-spacing: 8px;
@@ -35,39 +35,19 @@ footer {
   margin: auto;
 }
 
-#nav-title {
+.nav-title {
   color: var(--white);
   text-align: start;
-  font-size: 32px;
-  letter-spacing: 3px;
-  width: 20%;
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+  width: 20rem;
   padding: 0;
-
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.nav-space1 {
-  width: 65%;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  margin: auto;
-}
-
-button {
   margin: 0px;
-  height: 50px;
-  border: 0px;
-  color: var(--white);
-  padding: 0;
-  width: 6%;
 }
 
-#last-nav-button {
-  margin-right: 10px;
-}
 
 .center-title-background {
   height: 25%;
@@ -78,11 +58,9 @@ button {
 
 .grid-container {
   display: grid;
-  column-gap: 20px;
-  grid-template-columns: 180px 180px 180px 180px 180px;
-  grid-template-rows: 283px;
-  flex-wrap: wrap;
-  padding-top: 2%;
+  column-gap: 1em;
+  grid-template-columns: repeat(5, 1fr);
+  overflow: wrap;
 }
 
 .center {
@@ -90,6 +68,30 @@ button {
   justify-content: center;
   height: 75%;
   align-self: center;
+}
+
+.navbar {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: row-reverse;
+  list-style: none;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+  text-decoration: none;
+}
+
+li {
+  width: 7rem;
+  align-items: center;
 }
 
 @-moz-document url-prefix() {
