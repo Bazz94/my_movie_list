@@ -75,12 +75,12 @@ if (!isset($_SESSION['movies'])) {
             for ($i = 0; $i < count($_SESSION['movies']); $i++) {
               if ($i < 20) { //limits output
                 echo "
-                <div class=\"image-container\">
-                <h3></h3>
-                <img class=\"image\" src=\"imgs/movie_poster.png\" alt=\"\">
-                <p class=\"image-text\">" . $_SESSION['movies'][$i]->to_string() ."</p>
-                </div>
-                ";
+                  <div class=\"image-container\">
+                  <h3></h3>
+                  <img class=\"image\" src=\"" . $_SESSION['movies'][$i]->getPoster() . "\" alt=\"\">
+                  <p class=\"image-text\">" . $_SESSION['movies'][$i]->to_string() ."</p>
+                  </div>
+                  ";
               }
             }
           ?>

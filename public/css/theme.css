@@ -151,24 +151,6 @@ a:hover {
   }
 }
 
-.image-text {
-  font-size: 1.1rem;
-  color: var(--white);
-  opacity: 0;
-  position: relative;
-  bottom: 82.5%;
-  width: 80%;
-  height: 13rem;
-  margin: 0;
-  padding: 1rem;
-}
-
-.image-text:hover {
-  backdrop-filter: blur(2px);
-  opacity: 1;
-  transition: 0.5s ease;
-}
-
 h3 {
   font-size: 2rem;
   color: var(--white);
@@ -179,8 +161,6 @@ h3 {
   margin-top: 0.5rem;
   height: 2.0rem;
   align-items: center;
-  /* Counter */
-
 }
 
 h3:before {
@@ -202,4 +182,23 @@ h3:before {
   text-align: center;
   width: 10rem;
   height: 18.5rem;
+}
+
+.image-text {
+  font-size: 1.1rem;
+  color: var(--white);
+  opacity: 0;
+  position: relative;
+  bottom: 82.5%;
+  width: 80%;
+  height: 13rem;
+  margin: 0;
+  padding: 1rem;
+  line-height: 12.5rem;
+}
+
+.image-text:hover {
+  backdrop-filter: blur(2px);
+  opacity: 1;
+  transition: 0.5s ease;
 }
