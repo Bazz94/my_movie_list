@@ -62,22 +62,3 @@ form {
 #title2 {
   margin-top: 40px;
 }
-
-#popup-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ccc;
-  display: none;
-}
-
-#popup-container h2 {
-  margin-top: 0;
-}
-
-#close-btn {
-  margin-top: 10px;
-}
