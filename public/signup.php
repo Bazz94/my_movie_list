@@ -7,19 +7,18 @@ if (!isset($_SESSION['movies'])) {
 }
 
 if (isset($_POST['email'], $_POST['password'])) {
-  if (!preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/', $_POST['email'])) {
-    $_SESSION['error'] = "Error: Your email is invalid";
-    exit();
-  } 
-  if (!strlen($_POST['password']) >= 8){
+  $create_user = true;
+  if (strlen($_POST['password']) < 8){
     $_SESSION['error'] = "Error: Your password is invalid";
-    exit();
+    $create_user = false;
   } 
-  include('../app/create_user.php');  //will go to home.php if completed successfully
-}
-?>
-<?php 
-if (isset($_POST['email'], $_POST['password'])) {
+  if (!($_POST['password'] == $_POST['passwordCheck'])) {
+    $_SESSION['error'] = "Error: Your passwords do not match";
+    $create_user = false;
+  }
+  if ($create_user) {
+    include('../app/create_user.php');  //will go to home.php if completed successfully
+  }
   if (!isset($_SESSION['loggedin'])) {
     echo '<script>document.getElementById("popup-container").style.display = "block";</script>';
   }
@@ -36,6 +35,7 @@ if (isset($_POST['email'], $_POST['password'])) {
   <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/signup.css">
+  <script src="js/script.js"></script>
 </head>
 
 <body>
@@ -83,13 +83,23 @@ if (isset($_POST['email'], $_POST['password'])) {
       </section>
     </section>
   </main>
-  <div id="popup-container">
-    <h2>Error</h2>
-    <p>
-      <?php echo $_SESSION['error']; ?>
-    </p>
-    <button id="close-btn">Close</button>
+
+  <div id="popup-background">
+    <div id="popup-container">
+      <h2>Error</h2>
+      <p>
+        <?php echo $_SESSION['error']; ?>
+      </p>
+      <button id="close-btn">Close</button>
+    </div>
   </div>
+  <?php
+    if (isset($_POST['email'], $_POST['password'])) {
+      if (!isset($_SESSION['loggedin'])) {
+        echo '<script>document.getElementById("popup-background").style.display = "flex";</script>';
+      }
+    }
+  ?>
 </body>
 
 </html>
