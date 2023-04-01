@@ -5,13 +5,7 @@ session_start();
 if (isset($_SESSION['loggedin'])) {
   header('Location: index.php');
 }
-// is not logged in
-if (isset($_POST['email'], $_POST['password'])) {
-  include('../app/authenticate.php'); //will go to home.php if completed successfully
-  if (!isset($_SESSION['loggedin'])) {
-    echo '<script>document.getElementById("popup-container").style.display = "block";</script>';
-  }
-}
+
 // Check if data is in SESSION movies
 if (!isset($_SESSION['movies'])) {
   header('Location: index.php');
@@ -29,6 +23,7 @@ if (!isset($_SESSION['movies'])) {
   <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/login.css">
+  <script src="js/script.js"></script>
 </head>
 
 <body>
@@ -47,7 +42,7 @@ if (!isset($_SESSION['movies'])) {
             <input type="password" placeholder="Enter Password" name="password" id="password" required>
             <button type="submit">Login</button>
             <a id="ref" href="#">Forgot password?</a>
-            <a id="ref" href="signup.html">Sign UP</a>
+            <a id="ref" href="signup.php">Sign UP</a>
           </div>
         </form>
       </section>
@@ -72,15 +67,28 @@ if (!isset($_SESSION['movies'])) {
         </div>
       </section>
     </section>
-  </main>
 
-  <div id="popup-container">
-    <h2>Error</h2>
-    <p>
-      <?php echo $_SESSION['error']; ?>
-    </p>
-    <button id="close-btn">Close</button>
+  </main>
+  <div id="popup-background">
+    <div id="popup-container">
+      <h2>Error</h2>
+      <p>
+        <?php echo $_SESSION['error']; ?>
+      </p>
+      <button id="close-btn">Close</button>
+    </div>
   </div>
+  <?php 
+    // is not logged in
+    if (isset($_POST['email'], $_POST['password'])) {
+      include('../app/authenticate.php'); //will go to home.php if completed successfully
+      if (!isset($_SESSION['loggedin'])) {
+        echo '<script>
+          document.getElementById("popup-background").style.display = "flex";
+        </script>';
+      }
+    }
+  ?>
 </body>
 
 </html>
