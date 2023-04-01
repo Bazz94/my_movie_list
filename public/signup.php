@@ -5,6 +5,24 @@ session_start();
 if (!isset($_SESSION['movies'])) {
   header('Location: index.php');
 }
+
+if (isset($_POST['email'], $_POST['password'])) {
+  $create_user = true;
+  if (strlen($_POST['password']) < 8){
+    $_SESSION['error'] = "Error: Your password is invalid";
+    $create_user = false;
+  } 
+  if (!($_POST['password'] == $_POST['passwordCheck'])) {
+    $_SESSION['error'] = "Error: Your passwords do not match";
+    $create_user = false;
+  }
+  if ($create_user) {
+    include('../app/create_user.php');  //will go to home.php if completed successfully
+  }
+  if (!isset($_SESSION['loggedin'])) {
+    echo '<script>document.getElementById("popup-container").style.display = "block";</script>';
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +35,7 @@ if (!isset($_SESSION['movies'])) {
   <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/signup.css">
+  <script src="js/script.js"></script>
 </head>
 
 <body>
@@ -27,7 +46,7 @@ if (!isset($_SESSION['movies'])) {
         <h1 id="title2">List</h1>
       </section>
       <section id="login-form">
-        <form action="services/authenticate.php" method="post">
+        <form action="signup.php" method="post">
           <div class="column" id="form-column">
             <label class="labels" for="username"><b>Username</b></label>
             <input type="text" placeholder="Enter Username" name="username" id="username" required>
@@ -44,10 +63,6 @@ if (!isset($_SESSION['movies'])) {
       </section>
     </section>
     <section class="column">
-      <section class="center" id="community-ranking-container">
-        <h2>Community Ranking</h2>
-        <hr>
-      </section>
       <section class="center" id="center-grid">
         <div class="grid-container">
           <?php 
@@ -68,6 +83,23 @@ if (!isset($_SESSION['movies'])) {
       </section>
     </section>
   </main>
+
+  <div id="popup-background">
+    <div id="popup-container">
+      <h2>Error</h2>
+      <p>
+        <?php echo $_SESSION['error']; ?>
+      </p>
+      <button id="close-btn">Close</button>
+    </div>
+  </div>
+  <?php
+    if (isset($_POST['email'], $_POST['password'])) {
+      if (!isset($_SESSION['loggedin'])) {
+        echo '<script>document.getElementById("popup-background").style.display = "flex";</script>';
+      }
+    }
+  ?>
 </body>
 
 </html>
