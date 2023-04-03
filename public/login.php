@@ -69,23 +69,22 @@ if (!isset($_SESSION['movies'])) {
     </section>
 
   </main>
-  <div id="popup-background">
-    <div id="popup-container">
-      <h2>Error</h2>
-      <p>
-        <?php echo $_SESSION['error']; ?>
-      </p>
-      <button id="close-btn">Close</button>
-    </div>
-  </div>
   <?php 
     // is not logged in
     if (isset($_POST['email'], $_POST['password'])) {
       include('../app/authenticate.php'); //will go to home.php if completed successfully
       if (!isset($_SESSION['loggedin'])) {
-        echo '<script>
-          document.getElementById("popup-background").style.display = "flex";
-        </script>';
+        echo "
+        <div id=\"popup-background\">
+          <div id=\"popup-container\">
+            <h2>Error</h2>
+            <p>
+              ".$_SESSION['error']."
+            </p>
+            <button id=\"close-btn\">Close</button>
+          </div>
+        </div>
+        ";
       }
     }
   ?>

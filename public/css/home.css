@@ -89,10 +89,6 @@ footer {
   text-decoration: none;
 }
 
-li {
-  width: 7rem;
-  align-items: center;
-}
 
 @-moz-document url-prefix() {
 
@@ -100,6 +96,4 @@ li {
   .grid-container {
     overflow: hidden;
   }
-
-
 }
