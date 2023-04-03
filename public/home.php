@@ -37,7 +37,7 @@ if (!isset($_SESSION['movies'])) {
           ";
         } else {
         echo "
-          <li><a class=\"nav-link\" href=\"user.php\">My Ranking</a></li>
+          <li><a class=\"nav-link\" href=\"user.php\">My List</a></li>
           ";
         }
       ?>

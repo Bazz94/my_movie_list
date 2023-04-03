@@ -19,9 +19,6 @@ if (isset($_POST['email'], $_POST['password'])) {
   if ($create_user) {
     include('../app/create_user.php');  //will go to home.php if completed successfully
   }
-  if (!isset($_SESSION['loggedin'])) {
-    echo '<script>document.getElementById("popup-container").style.display = "block";</script>';
-  }
 }
 ?>
 
@@ -84,19 +81,20 @@ if (isset($_POST['email'], $_POST['password'])) {
     </section>
   </main>
 
-  <div id="popup-background">
-    <div id="popup-container">
-      <h2>Error</h2>
-      <p>
-        <?php echo $_SESSION['error']; ?>
-      </p>
-      <button id="close-btn">Close</button>
-    </div>
-  </div>
   <?php
     if (isset($_POST['email'], $_POST['password'])) {
       if (!isset($_SESSION['loggedin'])) {
-        echo '<script>document.getElementById("popup-background").style.display = "flex";</script>';
+        echo "
+        <div id=\"popup-background\">
+          <div id=\"popup-container\">
+            <h2>Error</h2>
+            <p>
+              ". $_SESSION['error'] ."
+            </p>
+            <button id=\"close-btn\">Close</button>
+          </div>
+        </div>
+        ";
       }
     }
   ?>
