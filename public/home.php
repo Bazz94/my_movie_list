@@ -65,6 +65,7 @@ if (!isset($_SESSION['movies'])) {
         }
         ?>
       </div>
+
   </main>
   <footer>
     <label class="footer-label">Designed by Bernard Olivier</label>

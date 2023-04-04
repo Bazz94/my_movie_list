@@ -3,7 +3,7 @@ require_once '../app/classes.php';
 session_start();
 //is logged in
 if (isset($_SESSION['loggedin'])) {
-  header('Location: index.php');
+  header('Location: user.php');
 }
 
 // Check if data is in SESSION movies
