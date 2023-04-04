@@ -29,6 +29,7 @@ if (!isset($_SESSION['movies'])) {
   <link rel="icon" type="image/x-icon" href="../imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/user.css">
+  <script src="js/script.js"></script>
 </head>
 
 <body class="column">
@@ -65,11 +66,27 @@ if (!isset($_SESSION['movies'])) {
           }
         }
         ?>
+        <div class="image-container">
+          <h4> </h4>
+          <button id="add-new-btn">Add New</button>
+        </div>
       </div>
   </main>
   <footer>
     <label class="footer-label">Designed by Bernard Olivier</label>
   </footer>
+  <div id="popup-background">
+    <form id="popup-container" method="post" action="user.php">
+      <h2>Pick a Movie</h2>
+      <label class="labels" for="new-movie"><b>Movies</b></label>
+      <select class="select" name="newMovie">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+      </select>
+      <button type="submit" id="ok-btn">Ok</button>
+      <button type="button" id="close-btn">Close</button>
+    </form>
+  </div>
 </body>
 
 </html>
