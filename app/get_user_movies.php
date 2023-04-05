@@ -9,10 +9,16 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-$community_Ranking = [];
+$user_Ranking= [];
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT movieid, title, _date, poster FROM movies ORDER BY _weight DESC LIMIT 10')) {
+if ($stmt = $con->prepare('SELECT movies.movieid, movies.title, movies._date, movies.poster
+                          FROM ranking
+                          JOIN movies ON ranking.movie = movies.movieid
+                          WHERE ranking.user = ?
+                          ORDER BY ranking.position'
+)) {
+  $stmt->bind_param('s', $_SESSION['userid']);
   $stmt->execute();
   // Store the result so we can check if the account exists in the database.
   $stmt->store_result();
@@ -21,15 +27,12 @@ if ($stmt = $con->prepare('SELECT movieid, title, _date, poster FROM movies ORDE
     //records do exist
     $stmt->bind_result($movieid, $title, $date, $poster);
     while ($stmt->fetch()) {
-      $community_Ranking[] = new Movie($movieid, $title, $date, $poster);
+      $user_Ranking[] = new Movie($movieid, $title, $date, $poster);
     }
-  } else {
-    $_SESSION['error'] = 'There are no movies available';
   }
-  $stmt->close();
 } else {
   $_SESSION['error'] = 'Error preparing SQL statement: ' . mysqli_error($con);
 }
-
-$_SESSION['community-movies'] = $community_Ranking;
+$stmt->close();
+$_SESSION['user-movies'] = $user_Ranking;
 ?>

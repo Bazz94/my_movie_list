@@ -1,6 +1,5 @@
 <?php 
-require_once('../app/get_movies.php');
 session_start();
-$_SESSION['movies'] = COMMUNITY_RANKING;
+require_once('../app/get_movies.php'); //retrieve movies 
 require('home.php'); 
 ?>
