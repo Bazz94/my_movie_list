@@ -50,10 +50,9 @@ footer {
 
 
 .center-title-background {
-  height: 25%;
+  height: 13.5rem;
   display: flex;
   justify-content: center;
-
 }
 
 .grid-container {
@@ -89,10 +88,6 @@ footer {
   text-decoration: none;
 }
 
-li {
-  width: 7rem;
-  align-items: center;
-}
 
 @-moz-document url-prefix() {
 
@@ -100,6 +95,4 @@ li {
   .grid-container {
     overflow: hidden;
   }
-
-
 }
