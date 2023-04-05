@@ -12,10 +12,12 @@ if(isset($_POST['logout'])){
   echo "please log out";
   include('../app/logout.php'); // goes to home page
 }
-// Check if data is in SESSION movies
-if (!isset($_SESSION['movies'])) {
-  header('Location: index.php');
+
+if (isset($_POST['newMovie'])) {
+  require_once '../app/add_movie.php';
 }
+//get movies from user
+require_once '../app/get_user_movies.php';
 // first visit
 ?>
 
@@ -54,13 +56,13 @@ if (!isset($_SESSION['movies'])) {
       <div class="grid-container">
         <?php 
         require_once('../app/classes.php');
-        for ($i = 0; $i < count($_SESSION['movies']); $i++) {
+        for ($i = 0; $i < count($_SESSION['user-movies']); $i++) {
           if ($i < 20) { //limits output
             echo "
               <div class=\"image-container\">
               <h3></h3>
-              <img class=\"image\" src=\"" . $_SESSION['movies'][$i]->getPoster() . "\" alt=\"\">
-              <p class=\"image-text\">" . $_SESSION['movies'][$i]->to_string() ."</p>
+              <img class=\"image\" src=\"" . $_SESSION['user-movies'][$i]->getPoster() . "\" alt=\"\">
+              <p class=\"image-text\">" . $_SESSION['user-movies'][$i]->to_string() ."</p>
               </div>
               ";
           }
@@ -80,8 +82,16 @@ if (!isset($_SESSION['movies'])) {
       <h2>Pick a Movie</h2>
       <label class="labels" for="new-movie"><b>Movies</b></label>
       <select class="select" name="newMovie">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
+        <?php 
+        require_once('../app/classes.php');
+        for ($i = 0; $i < count($_SESSION['user-movies']); $i++) {
+          if ($i < 20) { //limits output
+            echo "
+              <option value=\"". $_SESSION['user-movies']->id ."\">".$_SESSION['user-movies']->to_string()."</option>
+              ";
+          }
+        }
+        ?>
       </select>
       <button type="submit" id="ok-btn">Ok</button>
       <button type="button" id="close-btn">Close</button>

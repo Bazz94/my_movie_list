@@ -2,7 +2,7 @@
 require_once '../app/classes.php';
 session_start();
 
-if (!isset($_SESSION['movies'])) {
+if (!isset($_SESSION['community-movies'])) {
   header('Location: index.php');
 }
 
@@ -64,13 +64,13 @@ if (isset($_POST['email'], $_POST['password'])) {
         <div class="grid-container">
           <?php 
             require_once '../app/classes.php';
-            for ($i = 0; $i < count($_SESSION['movies']); $i++) {
+            for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
               if ($i < 9) { //limits output
                 echo "
                   <div class=\"image-container\">
                   <h3></h3>
-                  <img class=\"image\" src=\"" . $_SESSION['movies'][$i]->getPoster() . "\" alt=\"\">
-                  <p class=\"image-text\">" . $_SESSION['movies'][$i]->to_string() ."</p>
+                  <img class=\"image\" src=\"" . $_SESSION['community-movies'][$i]->getPoster() . "\" alt=\"\">
+                  <p class=\"image-text\">" . $_SESSION['community-movies'][$i]->to_string() ."</p>
                   </div>
                   ";
               }
