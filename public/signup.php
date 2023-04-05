@@ -2,7 +2,7 @@
 require_once '../app/classes.php';
 session_start();
 
-if (!isset($_SESSION['movies'])) {
+if (!isset($_SESSION['community-movies'])) {
   header('Location: index.php');
 }
 
@@ -18,9 +18,6 @@ if (isset($_POST['email'], $_POST['password'])) {
   }
   if ($create_user) {
     include('../app/create_user.php');  //will go to home.php if completed successfully
-  }
-  if (!isset($_SESSION['loggedin'])) {
-    echo '<script>document.getElementById("popup-container").style.display = "block";</script>';
   }
 }
 ?>
@@ -67,13 +64,13 @@ if (isset($_POST['email'], $_POST['password'])) {
         <div class="grid-container">
           <?php 
             require_once '../app/classes.php';
-            for ($i = 0; $i < count($_SESSION['movies']); $i++) {
+            for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
               if ($i < 9) { //limits output
                 echo "
                   <div class=\"image-container\">
                   <h3></h3>
-                  <img class=\"image\" src=\"" . $_SESSION['movies'][$i]->getPoster() . "\" alt=\"\">
-                  <p class=\"image-text\">" . $_SESSION['movies'][$i]->to_string() ."</p>
+                  <img class=\"image\" src=\"" . $_SESSION['community-movies'][$i]->getPoster() . "\" alt=\"\">
+                  <p class=\"image-text\">" . $_SESSION['community-movies'][$i]->to_string() ."</p>
                   </div>
                   ";
               }
@@ -84,19 +81,20 @@ if (isset($_POST['email'], $_POST['password'])) {
     </section>
   </main>
 
-  <div id="popup-background">
-    <div id="popup-container">
-      <h2>Error</h2>
-      <p>
-        <?php echo $_SESSION['error']; ?>
-      </p>
-      <button id="close-btn">Close</button>
-    </div>
-  </div>
   <?php
     if (isset($_POST['email'], $_POST['password'])) {
       if (!isset($_SESSION['loggedin'])) {
-        echo '<script>document.getElementById("popup-background").style.display = "flex";</script>';
+        echo "
+        <div id=\"popup-background\">
+          <div id=\"popup-container\">
+            <h2>Error</h2>
+            <p>
+              ". $_SESSION['error'] ."
+            </p>
+            <button id=\"close-btn\">Close</button>
+          </div>
+        </div>
+        ";
       }
     }
   ?>

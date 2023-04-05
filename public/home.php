@@ -5,7 +5,7 @@ if (session_id() == '') {
     session_start();
 }
 // Check if data is in SESSION movies
-if (!isset($_SESSION['movies'])) {
+if (!isset($_SESSION['community-movies'])) {
   header('Location: index.php');
 }
 ?>
@@ -37,7 +37,7 @@ if (!isset($_SESSION['movies'])) {
           ";
         } else {
         echo "
-          <li><a class=\"nav-link\" href=\"user.php\">My Ranking</a></li>
+          <li><a class=\"nav-link\" href=\"user.php\">My List</a></li>
           ";
         }
       ?>
@@ -52,19 +52,20 @@ if (!isset($_SESSION['movies'])) {
       <div class="grid-container">
         <?php 
         require_once('../app/classes.php');
-        for ($i = 0; $i < count($_SESSION['movies']); $i++) {
+        for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
           if ($i < 20) { //limits output
             echo "
               <div class=\"image-container\">
               <h3></h3>
-              <img class=\"image\" src=\"" . $_SESSION['movies'][$i]->getPoster() . "\" alt=\"\">
-              <p class=\"image-text\">" . $_SESSION['movies'][$i]->to_string() ."</p>
+              <img class=\"image\" src=\"" . $_SESSION['community-movies'][$i]->getPoster() . "\" alt=\"\">
+              <p class=\"image-text\">" . $_SESSION['community-movies'][$i]->to_string() ."</p>
               </div>
               ";
           }
         }
         ?>
       </div>
+
   </main>
   <footer>
     <label class="footer-label">Designed by Bernard Olivier</label>
