@@ -18,7 +18,7 @@ if (isset($_POST['newMovie'])) {
 }
 //get movies from user
 require_once '../app/get_user_movies.php';
-// first visit 
+// first visit
 ?>
 
 <!DOCTYPE html>
