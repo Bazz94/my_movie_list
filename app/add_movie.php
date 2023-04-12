@@ -10,16 +10,16 @@ if ($connection->connect_error) {
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare("INSERT INTO `ranking` (`user`, `movie`, `position`) 
-  VALUES (?, ?, (SELECT COUNT(*) + 1 FROM ranking WHERE user = ?) ");
+$stmt = $connection->prepare("INSERT INTO ranking (`user`, movie, position) 
+  Select ?, ?, (SELECT COUNT(*) + 1 FROM ranking WHERE user = ?)");
+
+// Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
+$stmt->bind_param('sss', $_SESSION['userid'], $_POST['newMovie'], $_SESSION['userid']);
 
 if (!$stmt) {
     $_SESSION['error'] = "Error: " . mysqli_error($connection);
     exit();
 }
-
-// Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-$stmt->bind_param('sss', $_SESSION['userid'], $_POST['newMovie'], $_SESSION['userid']);
 
 // Execute statement
 $stmt->execute();
