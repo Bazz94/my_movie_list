@@ -28,13 +28,21 @@ require_once '../app/get_user_movies.php';
   <title>My Movie List</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="../imgs/favicon.png">
+  <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/user.css">
-  <script src="js/script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var script = document.createElement("script");
+    script.src = "js/script.js";
+    // Append the script element to the document
+    document.body.appendChild(script);
+  }, false);
+  </script>
 </head>
 
 <body class="column">
+
   <header>
     <nav class="navbar">
       <a class="nav-title" href="home.php">My Movie List</a>
@@ -84,10 +92,16 @@ require_once '../app/get_user_movies.php';
       <select class="select" name="newMovie">
         <?php 
         require_once('../app/classes.php');
-        for ($i = 0; $i < count($_SESSION['user-movies']); $i++) {
-          if ($i < 20) { //limits output
+        for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
+          $alreadyAdded = false;
+          for ($j = 0; $j < count($_SESSION['user-movies']); $j++) {
+            if ($_SESSION['community-movies'][$i]->id == $_SESSION['user-movies'][$j]->id) {
+              $alreadyAdded = true;
+            }
+          }
+          if (!$alreadyAdded) {
             echo "
-              <option value=\"". $_SESSION['user-movies']->id ."\">".$_SESSION['user-movies']->to_string()."</option>
+              <option value=\"". $_SESSION['community-movies'][$i]->id ."\">".$_SESSION['community-movies'][$i]->to_string()."</option>
               ";
           }
         }

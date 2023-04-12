@@ -1,6 +1,6 @@
 <?php 
 class Movie {
-  private $id;
+  public $id;
   private $title;
   private $date;
   private $poster;
