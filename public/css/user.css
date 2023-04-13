@@ -167,3 +167,7 @@ label {
   color: var(--white);
   transition: 0.5s ease;
 }
+
+.image-text {
+  cursor: move;
+}
