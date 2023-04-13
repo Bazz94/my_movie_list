@@ -137,3 +137,33 @@ h2 {
 label {
   color: var(--black);
 }
+
+.remove-btn {
+  font-size: 18px;
+  color: var(--white);
+  background-color: var(--red);
+  border-color: var(--black);
+  border-width: 3px;
+  letter-spacing: 0.1rem;
+  box-shadow: none;
+  opacity: 0;
+  position: relative;
+  bottom: 110%;
+  width: 80%;
+  height: 3rem;
+  margin: 0;
+
+}
+
+.image-text:hover~.remove-btn {
+  backdrop-filter: blur(2px);
+  opacity: 1;
+  transition: 0.5s ease;
+}
+
+.remove-btn:hover {
+  backdrop-filter: blur(2px);
+  opacity: 1;
+  color: var(--white);
+  transition: 0.5s ease;
+}
