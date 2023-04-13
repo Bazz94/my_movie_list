@@ -1,9 +1,11 @@
 <?php
 require_once '../app/classes.php';
-session_start();
+if (session_id() == '') {
+    session_start();
+}
 //is logged in
 if (isset($_SESSION['loggedin'])) {
-  header('Location: user.php');
+  header('Location: index.php');
 }
 
 // Check if data is in SESSION movies
@@ -11,6 +13,10 @@ if (!isset($_SESSION['community-movies'])) {
   header('Location: index.php');
 }
 // first visit
+
+if (isset($_POST['email'], $_POST['password'])) {
+  include('../app/authenticate.php'); //will go to home.php if completed successfully
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +29,14 @@ if (!isset($_SESSION['community-movies'])) {
   <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/login.css">
-  <script src="js/script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var script = document.createElement("script");
+    script.src = "js/script.js";
+    // Append the script element to the document
+    document.body.appendChild(script);
+  }, false);
+  </script>
 </head>
 
 <body>
@@ -72,7 +85,6 @@ if (!isset($_SESSION['community-movies'])) {
   <?php 
     // is not logged in
     if (isset($_POST['email'], $_POST['password'])) {
-      include('../app/authenticate.php'); //will go to home.php if completed successfully
       if (!isset($_SESSION['loggedin'])) {
         echo "
         <div id=\"popup-background\">

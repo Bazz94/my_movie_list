@@ -9,14 +9,20 @@ if (!isset($_SESSION['loggedin'])) {
 }
 // if pressed logout
 if(isset($_POST['logout'])){
-  echo "please log out";
   include('../app/logout.php'); // goes to home page
 }
 
 if (isset($_POST['newMovie'])) {
   require_once '../app/add_movie.php';
 }
-//get movies from user
+
+for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
+  $movieId = $_SESSION['community-movies'][$i]->id;
+  if(isset($_POST[$movieId])){
+    include('../app/remove_movie.php');
+    //get movies from user
+  }
+}
 require_once '../app/get_user_movies.php';
 // first visit
 ?>
@@ -67,11 +73,12 @@ require_once '../app/get_user_movies.php';
         for ($i = 0; $i < count($_SESSION['user-movies']); $i++) {
           if ($i < 20) { //limits output
             echo "
-              <div class=\"image-container\">
+              <form class=\"image-container\" method=\"post\" action=\"user.php\">
               <h3></h3>
               <img class=\"image\" src=\"" . $_SESSION['user-movies'][$i]->getPoster() . "\" alt=\"\">
               <p class=\"image-text\">" . $_SESSION['user-movies'][$i]->to_string() ."</p>
-              </div>
+              <input class=\"remove-btn\" type=\"submit\" name=\"".$_SESSION['user-movies'][$i]->id."\" value=\"Remove\">
+              </form>
               ";
           }
         }
