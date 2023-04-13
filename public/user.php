@@ -41,8 +41,12 @@ require_once '../app/get_user_movies.php';
   document.addEventListener('DOMContentLoaded', function() {
     var script = document.createElement("script");
     script.src = "js/script.js";
+    var dragAndDrop = document.createElement("script");
+    dragAndDrop.src = "js/dragAndDrop.js";
+    dragAndDrop.setAttribute("data", '<?php echo $_SESSION['userid'];?>');
     // Append the script element to the document
     document.body.appendChild(script);
+    document.body.appendChild(dragAndDrop);
   }, false);
   </script>
 </head>
@@ -73,7 +77,7 @@ require_once '../app/get_user_movies.php';
         for ($i = 0; $i < count($_SESSION['user-movies']); $i++) {
           if ($i < 20) { //limits output
             echo "
-              <form class=\"image-container\" method=\"post\" action=\"user.php\">
+              <form draggable=\"true\" class=\"image-container\" method=\"post\" action=\"user.php\">
               <h3></h3>
               <img class=\"image\" src=\"" . $_SESSION['user-movies'][$i]->getPoster() . "\" alt=\"\">
               <p class=\"image-text\">" . $_SESSION['user-movies'][$i]->to_string() ."</p>
@@ -83,7 +87,7 @@ require_once '../app/get_user_movies.php';
           }
         }
         ?>
-        <div class="image-container">
+        <div id="add-button" class="image-container">
           <h4> </h4>
           <button id="add-new-btn">Add New</button>
         </div>
