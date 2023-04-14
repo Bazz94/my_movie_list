@@ -6,7 +6,7 @@ if (!isset($movie_id,$movie_position,$user_id)) {
 //replace position in db
 
 // Get constants
-require('constants.php');
+require_once('constants.php');
 // Try and connect using the info above.
 $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if ($connection->connect_error) {
@@ -19,7 +19,7 @@ if ($connection->connect_error) {
 $stmt = $connection->prepare("UPDATE `ranking` SET `position`= ? WHERE user = ? AND movie = ?");
 
 // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-$stmt->bind_param('ssS',$movie_position ,$user_id, $movie_id);
+$stmt->bind_param('sss',$movie_position ,$user_id, $movie_id);
 
 if (!$stmt) {
     $_SESSION['error'] = "Error: " . mysqli_error($connection);

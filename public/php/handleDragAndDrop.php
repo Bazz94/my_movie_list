@@ -4,8 +4,6 @@ if (!isset($_POST['new'],$_POST['old'],$_POST['userid'])) {
   exit();
 }
 
-echo $_POST['new'];
-
 //get old movie position
 $movie_id = $_POST['old'];
 $user_id = $_POST['userid'];
