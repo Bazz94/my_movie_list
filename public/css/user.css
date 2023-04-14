@@ -1,3 +1,9 @@
+main {
+  height: calc(100% - 100px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 header {
   background-color: var(--red);
   width: 100%;
@@ -67,14 +73,6 @@ h1 {
   padding: 0px;
   margin: 0px;
   text-decoration: none;
-}
-
-@-moz-document url-prefix() {
-
-  /* This may be an issues when you add more thant 10 items */
-  .grid-container {
-    overflow: hidden;
-  }
 }
 
 #form-noui {

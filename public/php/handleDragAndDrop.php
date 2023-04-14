@@ -1,42 +1,69 @@
 <?php
-//error check???
 if (!isset($_POST['new'],$_POST['old'],$_POST['userid'])) {
+  echo 'In handleDragAndDrop.php on error line 2';
   exit();
 }
 
-//get old movie position
+//get movie positions
 $movie_id = $_POST['old'];
 $user_id = $_POST['userid'];
 include '../../app/get_movie_position.php';
 if (!isset($position)) {
+  echo 'In handleDragAndDrop.php on error line 11';
   exit();
 }
-$old_Movie_Position = $position;
+$old_movie_position = $position;
 
-//get new movie position
 $movie_id = $_POST['new'];
 $user_id = $_POST['userid'];
 include '../../app/get_movie_position.php';
-if (!isset($position) || $old_Movie_Position == $position) {
+if (!isset($position) || $old_movie_position == $position) {
+  echo 'In handleDragAndDrop.php on error line 20';
   exit();
 }
-$new_Movie_Position = $position;
+$new_movie_position = $position;
 
-//update position in db
+//old movie
+//update positions in db
 $movie_id = $_POST['old'];
-$movie_position = $new_Movie_Position;
+$movie_position = $new_movie_position;
 $user_id = $_POST['userid'];
 include '../../app/update_movie_position.php';
 if (!isset($successful)) {
+  echo 'In handleDragAndDrop.php on error line 32';
   exit();
 }
 $successful = null;
 
+//update weight in movies
+$new_position = $new_movie_position;
+$old_position = $old_movie_position;
+include '../../app/update_movie_weight.php';
+if (!isset($successful)) {
+  echo 'In handleDragAndDrop.php on error line 42';
+  exit();
+}
+$successful = null;
+
+//new movie
+//update positions in db
 $movie_id = $_POST['new'];
-$movie_position = $old_Movie_Position;
+$movie_position = $old_movie_position;
 $user_id = $_POST['userid'];
 include '../../app/update_movie_position.php';
 if (!isset($successful)) {
+  echo 'In handleDragAndDrop.php on error line 54';
   exit();
 }
+$successful = null;
+
+//update weight in movies
+$old_position = $new_movie_position;
+$new_position = $old_movie_position;
+include '../../app/update_movie_weight.php';
+if (!isset($successful)) {
+  echo 'In handleDragAndDrop.php on error line 64';
+  exit();
+}
+$successful = null;
 ?>

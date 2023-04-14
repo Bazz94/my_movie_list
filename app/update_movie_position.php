@@ -1,5 +1,6 @@
 <?php
-if (!isset($movie_id,$movie_position,$user_id)) {
+if (!isset($movie_id, $movie_position, $user_id)) {
+  echo 'In update_movie_position.php on error line 2';
   exit();
 }
 

@@ -1,6 +1,6 @@
 <?php
-//error check???
 if (!isset($movie_id, $user_id)) {
+  echo 'In get_movie_position.php on error line 2';
   exit();
 }
 
@@ -44,6 +44,7 @@ $stmt->store_result();
 $num_rows = $stmt->affected_rows;
 if ($num_rows != 1){
   $_SESSION['error'] = "Error: affected rows incorrect " . $num_rows;
+  echo 'error: ' . $_SESSION['error'];
   exit();
 } else {
   $stmt->bind_result($position);
