@@ -53,7 +53,7 @@ if (!isset($_SESSION['community-movies'])) {
         <?php 
         require_once('../app/classes.php');
         for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
-          if ($i < 20) { //limits output
+          if ($i < 30) { //limits output
             echo "
               <div class=\"image-container\">
               <h3></h3>

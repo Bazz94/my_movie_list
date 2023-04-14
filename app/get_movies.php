@@ -12,7 +12,7 @@ if (mysqli_connect_errno()) {
 $community_Ranking = [];
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT movieid, title, _date, poster FROM movies ORDER BY _weight DESC LIMIT 100')) {
+if ($stmt = $con->prepare('SELECT movieid, title, _date, poster FROM movies ORDER BY _weight DESC, title ASC LIMIT 100')) {
   $stmt->execute();
   // Store the result so we can check if the account exists in the database.
   $stmt->store_result();
