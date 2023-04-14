@@ -1,6 +1,6 @@
 <?php
 // We need to use sessions, so you should always start sessions using the below code.
-require_once '../app/classes.php';
+require_once('../app/classes.php');
 session_start();
 
 // not logged in
@@ -12,19 +12,22 @@ if(isset($_POST['logout'])){
   include('../app/logout.php'); // goes to home page
 }
 
-if (isset($_POST['newMovie'])) {
-  require_once '../app/add_movie.php';
-}
-
 for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
-  $movieId = $_SESSION['community-movies'][$i]->id;
-  if(isset($_POST[$movieId])){
+  $movie_id = $_SESSION['community-movies'][$i]->id;
+  if(isset($_POST[$movie_id])){
     include('../app/remove_movie.php');
     //get movies from user
   }
 }
-require_once '../app/get_user_movies.php';
-// first visit
+
+if (isset($_POST['newMovie'])) {
+  require('../app/get_user_movies.php');
+  $new_position = count($_SESSION['user-movies']) + 1;
+  require_once('../app/add_movie.php');
+}
+
+require('../app/get_user_movies.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -41,8 +44,12 @@ require_once '../app/get_user_movies.php';
   document.addEventListener('DOMContentLoaded', function() {
     var script = document.createElement("script");
     script.src = "js/script.js";
+    var dragAndDrop = document.createElement("script");
+    dragAndDrop.src = "js/dragAndDrop.js";
+    dragAndDrop.setAttribute("data", '<?php echo $_SESSION['userid'];?>');
     // Append the script element to the document
     document.body.appendChild(script);
+    document.body.appendChild(dragAndDrop);
   }, false);
   </script>
 </head>
@@ -70,10 +77,11 @@ require_once '../app/get_user_movies.php';
       <div class="grid-container">
         <?php 
         require_once('../app/classes.php');
+        require_once('../app/get_user_movies.php');
         for ($i = 0; $i < count($_SESSION['user-movies']); $i++) {
           if ($i < 20) { //limits output
             echo "
-              <form class=\"image-container\" method=\"post\" action=\"user.php\">
+              <form draggable=\"true\" class=\"image-container\" method=\"post\" action=\"user.php\">
               <h3></h3>
               <img class=\"image\" src=\"" . $_SESSION['user-movies'][$i]->getPoster() . "\" alt=\"\">
               <p class=\"image-text\">" . $_SESSION['user-movies'][$i]->to_string() ."</p>
@@ -83,7 +91,7 @@ require_once '../app/get_user_movies.php';
           }
         }
         ?>
-        <div class="image-container">
+        <div id="add-button" class="image-container">
           <h4> </h4>
           <button id="add-new-btn">Add New</button>
         </div>
