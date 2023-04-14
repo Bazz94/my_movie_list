@@ -1,4 +1,28 @@
 <?php
+if (!isset($movie_id, $_SESSION['userid'])) {
+  echo 'In remove_movie.php on error line 3';
+  exit();
+}
+
+//get position
+$user_id = $_SESSION['userid'];
+include '../app/get_movie_position.php';
+if (!isset($position)) {
+  echo 'In remove_movie.php on error line 10';
+  exit();
+}
+$old_movie_position = $position;
+
+//update weight in movies
+$new_position = 101;  //this makes the weight 0;
+$old_position = $old_movie_position; 
+include '../app/update_movie_weight.php';
+if (!isset($successful)) {
+  echo 'In remove_movie.php on error line 21';
+  exit();
+}
+
+
 // Get constants
 require_once('../app/constants.php');
 // Try and connect using the info above.
@@ -10,10 +34,10 @@ if ($connection->connect_error) {
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare("DELETE FROM `ranking` WHERE user = ? AND movie = ?;");
+$stmt = $connection->prepare("DELETE FROM `ranking` WHERE user = ? AND movie = ?");
 
 // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-$stmt->bind_param('ss', $_SESSION['userid'], $movieId);
+$stmt->bind_param('ss', $user_id, $movie_id);
 
 if (!$stmt) {
     $_SESSION['error'] = "Error: " . mysqli_error($connection);

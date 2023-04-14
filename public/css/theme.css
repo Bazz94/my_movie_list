@@ -201,6 +201,7 @@ h3:before {
   text-align: center;
   width: 10rem;
   height: 18.5rem;
+  display: stack;
 }
 
 .image-text {
