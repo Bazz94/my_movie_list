@@ -1,58 +1,64 @@
 <?php
-if (!isset($_SESSION['userid'], $_POST['newMovie'], $new_position)) {
-  echo 'In add_movie.php on error line 2';
-  exit();
+require_once('../app/constants.php');
+
+// Check that the required variables are assigned 
+if (!isset($_SESSION['user-id'], $_POST['newMovie'], $new_position)) {
+  $_SESSION['error'] = 'Required variables not set add_movie.php';
+  header('Location: error.php');
 }
-$user_id = $_SESSION['userid'];
+
+$user_id = $_SESSION['user-id'];
 $movie_id= $_POST['newMovie'];
 
 //update weight in movies
-//uses $new_position
 $old_position = 101;  //this makes the weight 0;
-include '../app/update_movie_weight.php';
+include('../app/update_movie_weight.php'); //requres $new_position to be set
 if (!isset($successful)) {
-  echo 'In add_movie.php on error line 21';
-  exit();
+  $_SESSION['error'] = 'Movie weight updated failed';
+  header('Location: error.php');
 }
 
-
-// Get constants
-require_once('../app/constants.php');
-// Try and connect using the info above.
-$connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if ($connection->connect_error) {
+//connect to database
+try {
+  $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+} catch (mysqli_sql_exception $e) {
   // If there is an error with the connection, stop the script and display the error.
-  $_SESSION['error'] = 'Failed to connect to MySQL: ' . $connection->connect_error;
-  exit();
+  $_SESSION['error'] = 'Failed to connect to User Database';
+  // Get error with $e->getMessage();
+  header('Location: error.php');
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare("INSERT INTO ranking (`user`, movie, position) 
-  Select ?, ?, (SELECT COUNT(*) + 1 FROM ranking WHERE user = ?)");
+$stmt = $connection->prepare("INSERT INTO ranking (`user_id`, `movie_id`, `position`) 
+  Select ?, ?, (SELECT COUNT(*) + 1 FROM ranking WHERE `user_id` = ?)");
 
-// Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
+// Bind parameters (s for string)
 $stmt->bind_param('sss', $user_id, $movie_id, $user_id);
 
+//check for prepare statement errors
 if (!$stmt) {
-  $_SESSION['error'] = "Error: " . mysqli_error($connection);
-  exit();
+    $_SESSION['error'] = "Error preparing sql statement";
+    // Get error with mysqli_error($connection)
+    header('Location: error.php');
 }
 
 // Execute statement
 $stmt->execute();
 
+//check for execution errors
 if ($stmt->errno) {
-  $_SESSION['error'] = "Error: " . $stmt->error;
-  exit();
+  $_SESSION['error'] = "SQL Execution Error";
+  // Get error with $stmt->error
+  header('Location: error.php');
 }
 
-// Get number of affected rows
-$num_rows = $stmt->affected_rows;
-if ($num_rows != 1){
-  $_SESSION['error'] = "Error: affected rows incorrect " . $num_rows;
-  exit();
-} 
+// Check to see if records were updated
+if ($stmt->affected_rows < 1){
+  $_SESSION['error'] = "No rows were updated";
+  header('Location: error.php');
+}
 
+// Close connections
 $stmt->close();
 $connection->close();
 ?>
