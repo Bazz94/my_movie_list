@@ -1,25 +1,26 @@
 <?php
-if (!isset($_POST['new'],$_POST['old'],$_POST['userid'])) {
-  echo 'In handleDragAndDrop.php on error line 2';
-  exit();
+// Check that the required variables are assigned 
+if (!isset($_POST['new'],$_POST['old'],$_POST['user-id'])) {
+  $_SESSION['error'] = 'Required variables not set handleDragAndDrop.php';
+  header('Location: user.php');
 }
+
+$user_id = $_POST['user-id'];
 
 //get movie positions
 $movie_id = $_POST['old'];
-$user_id = $_POST['userid'];
-include '../../app/get_movie_position.php';
+include('../../app/get_movie_position.php');
 if (!isset($position)) {
-  echo 'In handleDragAndDrop.php on error line 11';
-  exit();
+  $_SESSION['error'] = 'Get movie position failed';
+  header('Location: error.php');
 }
 $old_movie_position = $position;
 
 $movie_id = $_POST['new'];
-$user_id = $_POST['userid'];
-include '../../app/get_movie_position.php';
+include('../../app/get_movie_position.php');
 if (!isset($position) || $old_movie_position == $position) {
-  echo 'In handleDragAndDrop.php on error line 20';
-  exit();
+  $_SESSION['error'] = 'Get movie position failed';
+  header('Location: error.php');
 }
 $new_movie_position = $position;
 
@@ -27,21 +28,20 @@ $new_movie_position = $position;
 //update positions in db
 $movie_id = $_POST['old'];
 $movie_position = $new_movie_position;
-$user_id = $_POST['userid'];
-include '../../app/update_movie_position.php';
+include('../../app/update_movie_position.php');
 if (!isset($successful)) {
-  echo 'In handleDragAndDrop.php on error line 32';
-  exit();
+  $_SESSION['error'] = 'Update movie position failed';
+  header('Location: error.php');
 }
 $successful = null;
 
 //update weight in movies
 $new_position = $new_movie_position;
 $old_position = $old_movie_position;
-include '../../app/update_movie_weight.php';
+include('../../app/update_movie_weight.php');
 if (!isset($successful)) {
-  echo 'In handleDragAndDrop.php on error line 42';
-  exit();
+  $_SESSION['error'] = 'Update movie weight failed';
+  header('Location: error.php');
 }
 $successful = null;
 
@@ -49,21 +49,20 @@ $successful = null;
 //update positions in db
 $movie_id = $_POST['new'];
 $movie_position = $old_movie_position;
-$user_id = $_POST['userid'];
-include '../../app/update_movie_position.php';
+include('../../app/update_movie_position.php');
 if (!isset($successful)) {
-  echo 'In handleDragAndDrop.php on error line 54';
-  exit();
+  $_SESSION['error'] = 'Update movie position failed';
+  header('Location: error.php');
 }
 $successful = null;
 
 //update weight in movies
 $old_position = $new_movie_position;
 $new_position = $old_movie_position;
-include '../../app/update_movie_weight.php';
+include('../../app/update_movie_weight.php');
 if (!isset($successful)) {
-  echo 'In handleDragAndDrop.php on error line 64';
-  exit();
+  $_SESSION['error'] = 'Update movie weight failed';
+  header('Location: error.php');
 }
 $successful = null;
 ?>

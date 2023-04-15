@@ -65,7 +65,7 @@ var userid = document.currentScript.getAttribute('data');
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      body: `old=${oldId}&new=${newId}&userid=${userid}`,
+      body: `old=${oldId}&new=${newId}&user-id=${userid}`,
     })
       .then((response) => response.text());
   }

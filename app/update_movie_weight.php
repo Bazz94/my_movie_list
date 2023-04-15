@@ -1,53 +1,61 @@
 <?php
+require_once('constants.php');
+
+// Check that the required variables are assigned 
 if (!isset($new_position, $old_position, $movie_id)) {
-  echo 'In update_movie_weight.php on error line 2';
-  exit();
+  $_SESSION['error'] = 'Required variables not set update_movie_weight.php';
+  header('Location: error.php');
 }
 
-//calculate weight change
+// Calculate weight change
 $change = 0;
 $new_position_weight = ($new_position / -100) + 1.01;
 $old_position_weight = ($old_position / -100) + 1.01;
 $change = $new_position_weight - $old_position_weight;
 
-// Get constants
-require_once('constants.php');
-// Try and connect using the info above.
-$connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if ($connection->connect_error) {
+// Connect to database
+try {
+  $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+} catch (mysqli_sql_exception $e) {
   // If there is an error with the connection, stop the script and display the error.
-  $_SESSION['error'] = 'Failed to connect to MySQL: ' . $connection->connect_error;
-  exit();
+  $_SESSION['error'] = 'Failed to connect to User Database';
+  // Get error with $e->getMessage();
+  header('Location: error.php');
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare("UPDATE `movies` SET `_weight` = ROUND(_weight + ?,2) WHERE movieid = ?");
+$stmt = $connection->prepare("UPDATE movies SET `weight` = ROUND(`weight` + ?,2) WHERE `movie_id` = ?");
 
 // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
 $stmt->bind_param('ds',$change ,$movie_id);
 
+//check for prepare statement errors
 if (!$stmt) {
-    $_SESSION['error'] = "Error: " . mysqli_error($connection);
-    exit();
+    $_SESSION['error'] = "Error preparing sql statement";
+    // Get error with mysqli_error($connection)
+    header('Location: error.php');
 }
 
 // Execute statement
 $stmt->execute();
 
-
+// Check for execution errors
 if ($stmt->errno) {
-  $_SESSION['error'] = "Error: " . $stmt->error;
-  exit();
+  $_SESSION['error'] = "SQL Execution Error";
+  // Get error with $stmt->error
+  header('Location: error.php');
 }
 
-// Get number of affected rows
-$num_rows = $stmt->affected_rows;
-if ($num_rows != 1){
-  $_SESSION['error'] = "Error: affected rows incorrect " . $num_rows;
-  exit();
-}
+// Check to see if records were updated
+if ($stmt->affected_rows < 1){
+  $_SESSION['error'] = "No rows were updated";
+  header('Location: error.php');
+} 
 
+// Close connections
 $stmt->close();
 $connection->close();
+
+// Used to check if this script executed successfully
 $successful = true;
 ?>

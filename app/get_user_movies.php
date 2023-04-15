@@ -1,38 +1,54 @@
 <?php 
 require_once('../app/classes.php');
 require_once('../app/constants.php');
-
-$con = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if (mysqli_connect_errno()) {
-  // If there is an error with the connection, stop the script and display the error.
-  $_SESSION['error'] = 'Failed to connect to MySQL: ' . mysqli_connect_error();
-  exit();
-}
-
 $user_Ranking= [];
 
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT movies.movieid, movies.title, movies._date, movies.poster
-                          FROM ranking
-                          JOIN movies ON ranking.movie = movies.movieid
-                          WHERE ranking.user = ?
-                          ORDER BY ranking.position'
-)) {
-  $stmt->bind_param('s', $_SESSION['userid']);
-  $stmt->execute();
-  // Store the result so we can check if the account exists in the database.
-  $stmt->store_result();
-
-  if ($stmt->num_rows > 0) {
-    //records do exist
-    $stmt->bind_result($movieid, $title, $date, $poster);
-    while ($stmt->fetch()) {
-      $user_Ranking[] = new Movie($movieid, $title, $date, $poster);
-    }
-  }
-} else {
-  $_SESSION['error'] = 'Error preparing SQL statement: ' . mysqli_error($con);
+//connect to database
+try {
+$connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+} catch (mysqli_sql_exception $e) {
+  // If there is an error with the connection, stop the script and display the error.
+  $_SESSION['error'] = 'Failed to connect to the users Movies Database';
+  header('Location: error.php');
 }
-$stmt->close();
+
+// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
+$stmt = $connection->prepare('SELECT movies.movie_id, movies.title, movies.date, movies.poster
+                              FROM ranking
+                              JOIN movies ON ranking.movie_id = movies.movie_id
+                              WHERE ranking.user_id = ?
+                              ORDER BY ranking.position'); 
+
+$stmt->bind_param('s', $_SESSION['user-id']);
+
+//check for errors
+if (!$stmt) {
+    $_SESSION['error'] = "Error preparing sql statement: " . mysqli_error($connection);
+    header('Location: error.php');
+}
+
+// Execute statement
+$stmt->execute();
+
+//check for execution errors
+if ($stmt->errno) {
+  $_SESSION['error'] = "SQL Execution Error: " . $stmt->error;
+  header('Location: error.php');
+}
+
+//store to use data
+$stmt->store_result();
+
+// Set results to an array
+$stmt->bind_result($movieid, $title, $date, $poster);
+while ($stmt->fetch()) {
+  $user_Ranking[] = new Movie($movieid, $title, $date, $poster);
+}
+
+//Add to session data
 $_SESSION['user-movies'] = $user_Ranking;
+
+//close connections 
+$stmt->close();
+$connection->close();
 ?>

@@ -1,13 +1,9 @@
 <?php   
 // May have been called during index
 require_once('../app/classes.php');
-if (session_id() == '') {
-    session_start();
-}
-// Check if data is in SESSION movies
-if (!isset($_SESSION['community-movies'])) {
-  header('Location: index.php');
-}
+session_start();
+
+require_once('../app/get_movies.php'); //retrieve movies 
 ?>
 
 
@@ -30,7 +26,7 @@ if (!isset($_SESSION['community-movies'])) {
       <ul class="nav-list">
         <?php 
       //check to see if user is logged in
-        if(!isset($_SESSION['loggedin'])) {
+        if(!isset($_SESSION['logged-in'])) {
           echo "
           <li><a class=\"nav-link\" href=\"login.php\">Login</a></li>
           ";
@@ -45,7 +41,7 @@ if (!isset($_SESSION['community-movies'])) {
   </header>
   <main>
     <div class="center-title-background">
-      <h1>Community Ranking:</h1>
+      <h1>Community Ranking</h1>
     </div>
     <div class="center" id="image-center-container">
       <div class="grid-container">

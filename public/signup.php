@@ -2,9 +2,8 @@
 require_once '../app/classes.php';
 session_start();
 
-if (!isset($_SESSION['community-movies'])) {
-  header('Location: index.php');
-}
+//retrieve movies 
+require_once('../app/get_movies.php'); 
 
 if (isset($_POST['email'], $_POST['password'])) {
   $create_user = true;
@@ -12,7 +11,7 @@ if (isset($_POST['email'], $_POST['password'])) {
     $_SESSION['error'] = "Error: Your password is invalid";
     $create_user = false;
   } 
-  if (!($_POST['password'] == $_POST['passwordCheck'])) {
+  if (!($_POST['password'] == $_POST['password-Check'])) {
     $_SESSION['error'] = "Error: Your passwords do not match";
     $create_user = false;
   }
@@ -52,7 +51,7 @@ if (isset($_POST['email'], $_POST['password'])) {
             <label class="labels" for="password"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="password" id="password" required>
             <label class="labels" for="passwordCheck"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password again" name="passwordCheck" id="passwordCheck" required>
+            <input type="password" placeholder="Enter Password again" name="password-Check" id="passwordCheck" required>
             <button type="submit">Sign Up</button>
             <a id="ref" href="login.php">login</a>
           </div>
@@ -83,7 +82,7 @@ if (isset($_POST['email'], $_POST['password'])) {
 
   <?php
     if (isset($_POST['email'], $_POST['password'])) {
-      if (!isset($_SESSION['loggedin'])) {
+      if (!isset($_SESSION['logged-in'])) {
         echo "
         <div id=\"popup-background\">
           <div id=\"popup-container\">
