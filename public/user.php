@@ -3,8 +3,13 @@
 require_once('../app/classes.php');
 session_start();
 
+if (!isset($_SESSION['community-movies'])) {
+  $_SESSION['error'] = 'Failed to connect to Movies Database';
+  header('Location: error.php');
+}
+
 // not logged in
-if (!isset($_SESSION['loggedin'])) {
+if (!isset($_SESSION['logged-in'])) {
   header('Location: home.php');
 }
 // if pressed logout
@@ -46,7 +51,7 @@ require('../app/get_user_movies.php');
     script.src = "js/script.js";
     var dragAndDrop = document.createElement("script");
     dragAndDrop.src = "js/dragAndDrop.js";
-    dragAndDrop.setAttribute("data", '<?php echo $_SESSION['userid'];?>');
+    dragAndDrop.setAttribute("data", '<?php echo $_SESSION['user-id'];?>');
     // Append the script element to the document
     document.body.appendChild(script);
     document.body.appendChild(dragAndDrop);
@@ -71,7 +76,7 @@ require('../app/get_user_movies.php');
   </header>
   <main>
     <div class="center-title-background">
-      <h1><?= $_SESSION['username']?>'s Ranking:</h1>
+      <h1><?= $_SESSION['username']?>'s Ranking</h1>
     </div>
     <div class="center" id="image-center-container">
       <div class="grid-container">

@@ -40,6 +40,7 @@ footer {
   height: 50px;
   display: flex;
   justify-content: center;
+  margin-top: auto;
 }
 
 #content {
@@ -53,6 +54,7 @@ footer {
 
 #image-center-container {
   height: auto;
+  min-height: calc(100% - calc(13.5rem + 50px));
 }
 
 h1 {
