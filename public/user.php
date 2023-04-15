@@ -96,10 +96,11 @@ require('../app/get_user_movies.php');
           <button id="add-new-btn">Add New</button>
         </div>
       </div>
+      </div>
+      <footer>
+        <label class="footer-label">Designed by Bernard Olivier</label>
+      </footer>
   </main>
-  <footer>
-    <label class="footer-label">Designed by Bernard Olivier</label>
-  </footer>
   <div id="popup-background">
     <form id="popup-container" method="post" action="user.php">
       <h2>Pick a Movie</h2>

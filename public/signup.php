@@ -54,7 +54,7 @@ if (isset($_POST['email'], $_POST['password'])) {
             <label class="labels" for="passwordCheck"><b>Password</b></label>
             <input type="password" placeholder="Enter Password again" name="passwordCheck" id="passwordCheck" required>
             <button type="submit">Sign Up</button>
-            <a id="ref" href="login.html">login</a>
+            <a id="ref" href="login.php">login</a>
           </div>
         </form>
       </section>

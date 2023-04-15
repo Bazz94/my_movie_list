@@ -55,7 +55,7 @@ if (isset($_POST['email'], $_POST['password'])) {
             <input type="password" placeholder="Enter Password" name="password" id="password" required>
             <button type="submit">Login</button>
             <a id="ref" href="#">Forgot password?</a>
-            <a id="ref" href="signup.php">Sign UP</a>
+            <a id="ref" href="signup.php">Sign up</a>
           </div>
         </form>
       </section>
