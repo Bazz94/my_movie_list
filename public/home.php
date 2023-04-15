@@ -33,7 +33,6 @@ if (!isset($_SESSION['community-movies'])) {
         if(!isset($_SESSION['loggedin'])) {
           echo "
           <li><a class=\"nav-link\" href=\"login.php\">Login</a></li>
-          <li><a class=\"nav-link\" href=\"signup.php\">Sign Up</a></li>
           ";
         } else {
         echo "
@@ -65,11 +64,11 @@ if (!isset($_SESSION['community-movies'])) {
         }
         ?>
       </div>
-
+    </div>  
+    <footer>
+      <label class="footer-label">Designed by Bernard Olivier</label>
+    </footer>
   </main>
-  <footer>
-    <label class="footer-label">Designed by Bernard Olivier</label>
-  </footer>
 </body>
 
 </html>
