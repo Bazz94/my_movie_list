@@ -1,52 +1,70 @@
 <?php
-// Get constants
 require('../app/constants.php');
-// Try and connect using the info above.
-$con = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if (mysqli_connect_errno()) {
-  // If there is an error with the connection, stop the script and display the error.
-  $_SESSION['error'] = 'Failed to connect to MySQL: ' . mysqli_connect_error();
-  exit();
-}
 
-// Now we check if the data from the login form was submitted, isset() will check if the data exists.
+// Check to see if the required data was submitted
 if (!isset($_POST['email'], $_POST['password'])) {
   // Could not get the data that should have been sent.
-  $_SESSION['error'] = 'Failed to retrieve email or password: ' . mysqli_connect_error();
-  exit();
+  $_SESSION['error'] = 'Failed to retrieve form data';
+  header('Location: login.php');
+}
+
+//connect to database
+try {
+$connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+} catch (mysqli_sql_exception $e) {
+  // If there is an error with the connection, stop the script and display the error.
+  $_SESSION['error'] = 'Failed to connect to the User Database';
+  header('Location: error.php');
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT userid, _password, username FROM users WHERE email = ?')) {
-  // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-  $stmt->bind_param('s', $_POST['email']);
-  $stmt->execute();
-  // Store the result so we can check if the account exists in the database.
-  $stmt->store_result();
+$stmt = $connection->prepare('SELECT `user_id`, `password`, `username` FROM users WHERE `email` = ?'); 
 
-  if ($stmt->num_rows > 0) {
-    $stmt->bind_result($id, $password, $username);
-    $stmt->fetch();
-    // Account exists, now we verify the password.
-    // Note: remember to use password_hash in your registration file to store the hashed passwords.
-    if (password_verify($_POST['password'], $password)) {
-      // Verification success! User has logged-in!
-      // Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
-      session_regenerate_id();
-      $_SESSION['loggedin'] = TRUE;
-      $_SESSION['username'] = $username;
-      $_SESSION['userid'] = $id;
-      $_SESSION['email'] = $_POST['email'];
-      header('Location: home.php');
-    } else {
-      $_SESSION['error'] = '(Password) or Email is incorrect';
-    }
-  } else {
-    $_SESSION['error'] = 'Password or (Email) is incorrect';
-  }
+// Bind parameters (s for string)
+$stmt->bind_param('s', $_POST['email']);
 
-  $stmt->close();
+//check for prepare statement errors
+if (!$stmt) {
+    $_SESSION['error'] = "Error preparing sql statement";
+    // mysqli_error($connection)
+    header('Location: error.php');
 }
 
-//crypt('12345678','2394a9661a9089208c1c9c65ccac85a91da6a859')
+// Execute statement
+$stmt->execute();
+
+//check for execution errors
+if ($stmt->errno) {
+  $_SESSION['error'] = "SQL Execution Error";
+  // $stmt->error
+  header('Location: error.php');
+}
+
+//store to use data
+$stmt->store_result();
+
+//Check if account was found in database
+if ($stmt->num_rows > 0) {
+  $stmt->bind_result($id, $password, $username);
+  $stmt->fetch();
+  // Account exists, now we verify the password.
+  if (password_verify($_POST['password'], $password)) {
+    session_regenerate_id();
+    $_SESSION['logged-in'] = TRUE;
+    $_SESSION['username'] = $username;
+    $_SESSION['user-id'] = $id;
+    $_SESSION['email'] = $_POST['email'];
+    header('Location: home.php');
+  } else {
+    //password was incorrect
+    $_SESSION['error'] = 'Password or Email is incorrect';
+  }
+} else {
+  //email does not exist 
+  $_SESSION['error'] = 'Password or Email is incorrect';
+}
+
+//close connections
+$stmt->close();
+$connection->close();
 ?>
