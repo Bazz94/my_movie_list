@@ -1,17 +1,18 @@
 <?php
 require_once '../app/classes.php';
+
 if (session_id() == '') {
-    session_start();
+  session_start();
 }
+
+require_once('../app/get_movies.php'); //retrieve movies 
+
 //is logged in
-if (isset($_SESSION['loggedin'])) {
+if (isset($_SESSION['logged-in'])) {
   header('Location: index.php');
 }
 
-// Check if data is in SESSION movies
-if (!isset($_SESSION['community-movies'])) {
-  header('Location: index.php');
-}
+
 // first visit
 
 if (isset($_POST['email'], $_POST['password'])) {
@@ -55,7 +56,7 @@ if (isset($_POST['email'], $_POST['password'])) {
             <input type="password" placeholder="Enter Password" name="password" id="password" required>
             <button type="submit">Login</button>
             <a id="ref" href="#">Forgot password?</a>
-            <a id="ref" href="signup.php">Sign UP</a>
+            <a id="ref" href="signup.php">Sign up</a>
           </div>
         </form>
       </section>
@@ -85,7 +86,7 @@ if (isset($_POST['email'], $_POST['password'])) {
   <?php 
     // is not logged in
     if (isset($_POST['email'], $_POST['password'])) {
-      if (!isset($_SESSION['loggedin'])) {
+      if (!isset($_SESSION['logged-in'])) {
         echo "
         <div id=\"popup-background\">
           <div id=\"popup-container\">
