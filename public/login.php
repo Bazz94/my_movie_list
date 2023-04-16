@@ -26,7 +26,7 @@ if (isset($_POST['email'], $_POST['password'])) {
 <head>
   <title>My Movie List</title>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/login.css">
@@ -44,10 +44,9 @@ if (isset($_POST['email'], $_POST['password'])) {
   <main class="row" id="content">
     <section class="column" id="left-section">
       <section class="center-title-background">
-        <h1 id="title1">My Movie</h1>
-        <h1 id="title2">List</h1>
+        <h1 class="title">My Movie List</h1>
       </section>
-      <section id="login-form">
+      <section class="login-form">
         <form action="login.php" method="post">
           <div class="column" id="form-column">
             <label class="labels" for="email"><b>Email</b></label>
