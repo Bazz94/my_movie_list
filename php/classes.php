@@ -17,7 +17,7 @@ class Movie {
   }
 
   function getPoster() {
-    return '../movie_posters/' . $this->poster;
+    return 'movie_posters/' . $this->poster;
   }
 }
 ?>
