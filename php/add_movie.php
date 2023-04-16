@@ -1,5 +1,5 @@
 <?php
-require_once('../app/constants.php');
+require_once('php/constants.php');
 
 // Check that the required variables are assigned 
 if (!isset($_SESSION['user-id'], $_POST['newMovie'], $new_position)) {
@@ -12,7 +12,7 @@ $movie_id= $_POST['newMovie'];
 
 //update weight in movies
 $old_position = 101;  //this makes the weight 0;
-include('../app/update_movie_weight.php'); //requres $new_position to be set
+include('php/update_movie_weight.php'); //requres $new_position to be set
 if (!isset($successful)) {
   $_SESSION['error'] = 'Movie weight updated failed';
   header('Location: error.php');

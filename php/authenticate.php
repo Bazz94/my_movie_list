@@ -1,5 +1,5 @@
 <?php
-require('../app/constants.php');
+require('php/constants.php');
 
 // Check to see if the required data was submitted
 if (!isset($_POST['email'], $_POST['password'])) {

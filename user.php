@@ -1,6 +1,6 @@
 <?php
 // We need to use sessions, so you should always start sessions using the below code.
-require_once('../app/classes.php');
+require_once('php/classes.php');
 session_start();
 
 if (!isset($_SESSION['community-movies'])) {
@@ -14,24 +14,24 @@ if (!isset($_SESSION['logged-in'])) {
 }
 // if pressed logout
 if(isset($_POST['logout'])){
-  include('../app/logout.php'); // goes to home page
+  include('php/logout.php'); // goes to home page
 }
 
 for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
   $movie_id = $_SESSION['community-movies'][$i]->id;
   if(isset($_POST[$movie_id])){
-    include('../app/remove_movie.php');
+    include('php/remove_movie.php');
     //get movies from user
   }
 }
 
 if (isset($_POST['newMovie'])) {
-  require('../app/get_user_movies.php');
+  require('php/get_user_movies.php');
   $new_position = count($_SESSION['user-movies']) + 1;
-  require_once('../app/add_movie.php');
+  require_once('php/add_movie.php');
 }
 
-require('../app/get_user_movies.php');
+require('php/get_user_movies.php');
 
 ?>
 
@@ -81,8 +81,8 @@ require('../app/get_user_movies.php');
     <div class="center" id="image-center-container">
       <div class="grid-container">
         <?php 
-        require_once('../app/classes.php');
-        require_once('../app/get_user_movies.php');
+        require_once('php/classes.php');
+        require_once('php/get_user_movies.php');
         for ($i = 0; $i < count($_SESSION['user-movies']); $i++) {
           if ($i < 20) { //limits output
             echo "
@@ -112,7 +112,7 @@ require('../app/get_user_movies.php');
       <label class="labels" for="new-movie"><b>Movies</b></label>
       <select class="select" name="newMovie">
         <?php 
-        require_once('../app/classes.php');
+        require_once('php/classes.php');
         for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
           $alreadyAdded = false;
           for ($j = 0; $j < count($_SESSION['user-movies']); $j++) {

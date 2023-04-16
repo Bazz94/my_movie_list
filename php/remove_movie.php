@@ -1,5 +1,5 @@
 <?php
-require_once('../app/constants.php');
+require_once('php/constants.php');
 
 // Check that the required variables are assigned 
 if (!isset($movie_id, $_SESSION['user-id'])) {
@@ -9,7 +9,7 @@ if (!isset($movie_id, $_SESSION['user-id'])) {
 
 // Get position
 $user_id = $_SESSION['user-id'];
-include('../app/get_movie_position.php');
+include('php/get_movie_position.php');
 if (!isset($position)) {
   $_SESSION['error'] = 'Get movie position failed';
   header('Location: error.php');
@@ -19,7 +19,7 @@ $old_movie_position = $position;
 // Update weight in movies
 $new_position = 101;  //this makes the weight 0;
 $old_position = $old_movie_position; 
-include('../app/update_movie_weight.php');
+include('php/update_movie_weight.php');
 if (!isset($successful)) {
   $_SESSION['error'] = 'Update movie weight failed';
   header('Location: error.php');

@@ -1,6 +1,6 @@
 <?php 
-require_once('../app/classes.php');
-require_once('../app/constants.php');
+require_once('php/classes.php');
+require_once('php/constants.php');
 $user_Ranking= [];
 
 //connect to database

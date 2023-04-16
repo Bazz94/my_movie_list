@@ -1,9 +1,9 @@
 <?php
-require_once '../app/classes.php';
+require_once 'php/classes.php';
 session_start();
 
 //retrieve movies 
-require_once('../app/get_movies.php'); 
+require_once('php/get_movies.php'); 
 
 if (isset($_POST['email'], $_POST['password'])) {
   $create_user = true;
@@ -16,7 +16,7 @@ if (isset($_POST['email'], $_POST['password'])) {
     $create_user = false;
   }
   if ($create_user) {
-    include('../app/create_user.php');  //will go to home.php if completed successfully
+    include('php/create_user.php');  //will go to home.php if completed successfully
   }
 }
 ?>
@@ -61,7 +61,7 @@ if (isset($_POST['email'], $_POST['password'])) {
       <section class="center" id="center-grid">
         <div class="grid-container">
           <?php 
-            require_once '../app/classes.php';
+            require_once 'php/classes.php';
             for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
               if ($i < 9) { //limits output
                 echo "

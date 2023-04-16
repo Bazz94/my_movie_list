@@ -1,11 +1,11 @@
 <?php
-require_once '../app/classes.php';
+require_once 'php/classes.php';
 
 if (session_id() == '') {
   session_start();
 }
 
-require_once('../app/get_movies.php'); //retrieve movies 
+require_once('php/get_movies.php'); //retrieve movies 
 
 //is logged in
 if (isset($_SESSION['logged-in'])) {
@@ -16,7 +16,7 @@ if (isset($_SESSION['logged-in'])) {
 // first visit
 
 if (isset($_POST['email'], $_POST['password'])) {
-  include('../app/authenticate.php'); //will go to home.php if completed successfully
+  include('php/authenticate.php'); //will go to home.php if completed successfully
 }
 ?>
 
@@ -64,7 +64,7 @@ if (isset($_POST['email'], $_POST['password'])) {
       <section class="center" id="center-grid">
         <div class="grid-container">
           <?php 
-            require_once '../app/classes.php';
+            require_once 'php/classes.php';
             for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
               if ($i < 9) { //limits output
                 echo "

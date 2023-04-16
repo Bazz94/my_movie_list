@@ -1,5 +1,5 @@
 <?php
-require_once('../app/constants.php');
+require_once('php/constants.php');
 
 // Check that the required variables are assigned 
 if (!isset($movie_id, $movie_position, $user_id)) {

@@ -1,9 +1,9 @@
 <?php   
 // May have been called during index
-require_once('../app/classes.php');
+require_once('php/classes.php');
 session_start();
 
-require_once('../app/get_movies.php'); //retrieve movies 
+require_once('php/get_movies.php'); //retrieve movies 
 ?>
 
 
@@ -46,7 +46,7 @@ require_once('../app/get_movies.php'); //retrieve movies
     <div class="center" id="image-center-container">
       <div class="grid-container">
         <?php 
-        require_once('../app/classes.php');
+        require_once('php/classes.php');
         for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
           if ($i < 30) { //limits output
             echo "

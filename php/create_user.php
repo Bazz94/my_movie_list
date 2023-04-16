@@ -1,5 +1,5 @@
 <?php
-require('../app/constants.php');
+require('php/constants.php');
 
 // Check to see if the required data was submitted
 if (!isset($_POST['email'], $_POST['username'], $_POST['password'], $_POST['passwordCheck'])) {
@@ -55,5 +55,5 @@ $stmt->close();
 $connection->close();
 
 // Login the created user
-include('../app/authenticate.php');
+include('php/authenticate.php');
 ?>
