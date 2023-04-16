@@ -6,6 +6,12 @@
   --green: #00daa3;
 }
 
+@media only screen and (hover: none) and (pointer: coarse) {
+  :root {
+    font-size: 24px;
+  }
+}
+
 * {
   padding: none;
   margin: none;
@@ -37,7 +43,7 @@ main {
 footer {
   background-color: var(--red);
   width: 100%;
-  height: 50px;
+  height: 3.12rem;
   display: flex;
   justify-content: center;
   margin-top: auto;
@@ -54,7 +60,7 @@ footer {
 
 #image-center-container {
   height: auto;
-  min-height: calc(100% - calc(13.5rem + 50px));
+  min-height: calc(100% - calc(13.5rem + 3.12rem));
 }
 
 h1 {
@@ -101,7 +107,7 @@ input:hover {
 button {
   margin-top: 2rem;
   height: 3.75rem;
-  font-size: 18px;
+  font-size: 1.12rem;
   color: var(--black);
   background-color: var(--red);
   border-color: var(--black);
@@ -202,7 +208,6 @@ h3:before {
   text-align: center;
   width: 10rem;
   height: 18.5rem;
-  display: stack;
 }
 
 .image-text {
