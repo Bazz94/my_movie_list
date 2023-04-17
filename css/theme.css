@@ -8,7 +8,7 @@
 
 @media only screen and (hover: none) and (pointer: coarse) {
   :root {
-    font-size: 24px;
+    font-size: 20px;
   }
 }
 
@@ -236,7 +236,7 @@ h3:before {
   top: 50%;
   left: 50%;
   width: 100vw;
-  height: 100vw;
+  height: 100vh;
   transform: translate(-50%, -50%);
   display: flex;
   text-align: center;
@@ -249,7 +249,7 @@ h3:before {
   padding: 20px;
   border: 3px solid var(--black);
   background-color: var(--white);
-  width: 40%;
+  width: clamp(10rem, 40%, 30rem);
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -257,7 +257,7 @@ h3:before {
 
 #close-btn {
   margin: 0px auto;
-  width: 20%;
+  width: clamp(5rem, 20%, 10rem);
 }
 
 li {

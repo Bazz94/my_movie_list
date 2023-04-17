@@ -9,7 +9,7 @@ if (!isset($movie_id, $_SESSION['user-id'])) {
 
 // Get position
 $user_id = $_SESSION['user-id'];
-include('php/get_movie_position.php');
+require('php/get_movie_position.php');
 if (!isset($position)) {
   $_SESSION['error'] = 'Get movie position failed';
   header('Location: error.php');
@@ -19,7 +19,7 @@ $old_movie_position = $position;
 // Update weight in movies
 $new_position = 101;  //this makes the weight 0;
 $old_position = $old_movie_position; 
-include('php/update_movie_weight.php');
+require('php/update_movie_weight.php');
 if (!isset($successful)) {
   $_SESSION['error'] = 'Update movie weight failed';
   header('Location: error.php');

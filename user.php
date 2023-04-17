@@ -14,13 +14,13 @@ if (!isset($_SESSION['logged-in'])) {
 }
 // if pressed logout
 if(isset($_POST['logout'])){
-  include('php/logout.php'); // goes to home page
+  require('php/logout.php'); // goes to home page
 }
 
 for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
   $movie_id = $_SESSION['community-movies'][$i]->id;
   if(isset($_POST[$movie_id])){
-    include('php/remove_movie.php');
+    require('php/remove_movie.php');
     //get movies from user
   }
 }

@@ -12,7 +12,7 @@ $movie_id= $_POST['newMovie'];
 
 //update weight in movies
 $old_position = 101;  //this makes the weight 0;
-include('php/update_movie_weight.php'); //requres $new_position to be set
+require('php/update_movie_weight.php'); //requres $new_position to be set
 if (!isset($successful)) {
   $_SESSION['error'] = 'Movie weight updated failed';
   header('Location: error.php');

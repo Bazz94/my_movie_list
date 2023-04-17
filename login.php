@@ -1,22 +1,17 @@
 <?php
 require_once 'php/classes.php';
+session_start();
 
-if (session_id() == '') {
-  session_start();
-}
+// Retrieve movies 
+require_once('php/get_movies.php'); 
 
-require_once('php/get_movies.php'); //retrieve movies 
-
-//is logged in
+// Check if logged in
 if (isset($_SESSION['logged-in'])) {
   header('Location: index.php');
 }
 
-
-// first visit
-
 if (isset($_POST['email'], $_POST['password'])) {
-  include('php/authenticate.php'); //will go to home.php if completed successfully
+  require('php/authenticate.php'); //will go to home.php if completed successfully
 }
 ?>
 
@@ -80,8 +75,8 @@ if (isset($_POST['email'], $_POST['password'])) {
         </div>
       </section>
     </section>
-
   </main>
+
   <?php 
     // is not logged in
     if (isset($_POST['email'], $_POST['password'])) {
@@ -89,10 +84,7 @@ if (isset($_POST['email'], $_POST['password'])) {
         echo "
         <div id=\"popup-background\">
           <div id=\"popup-container\">
-            <h2>Error</h2>
-            <p>
-              ".$_SESSION['error']."
-            </p>
+            <h2>".$_SESSION['error']."</h2>
             <button id=\"close-btn\">Close</button>
           </div>
         </div>

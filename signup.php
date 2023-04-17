@@ -2,22 +2,26 @@
 require_once 'php/classes.php';
 session_start();
 
-//retrieve movies 
+// Retrieve movies 
 require_once('php/get_movies.php'); 
 
+// Check for failed login
 if (isset($_POST['email'], $_POST['password'])) {
-  $create_user = true;
+  $create_user = true; //flag to check if all conditions to create a user are met
   if (strlen($_POST['password']) < 8){
-    $_SESSION['error'] = "Error: Your password is invalid";
+    $_SESSION['error'] = "Your password should be more than 8 characters";
     $create_user = false;
   } 
   if (!($_POST['password'] == $_POST['password-Check'])) {
-    $_SESSION['error'] = "Error: Your passwords do not match";
+    $_SESSION['error'] = "Your passwords do not match";
     $create_user = false;
   }
   if ($create_user) {
+    echo 'flag1';
     include('php/create_user.php');  //will go to home.php if completed successfully
+    echo 'flag2';
   }
+  echo 'flag3';
 }
 ?>
 
@@ -31,7 +35,14 @@ if (isset($_POST['email'], $_POST['password'])) {
   <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/signup.css">
-  <script src="js/script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var script = document.createElement("script");
+    script.src = "js/script.js";
+    // Append the script element to the document
+    document.body.appendChild(script);
+  }, false);
+  </script>
 </head>
 
 <body>
@@ -85,10 +96,7 @@ if (isset($_POST['email'], $_POST['password'])) {
         echo "
         <div id=\"popup-background\">
           <div id=\"popup-container\">
-            <h2>Error</h2>
-            <p>
-              ". $_SESSION['error'] ."
-            </p>
+            <h2>". $_SESSION['error'] ."</h2>
             <button id=\"close-btn\">Close</button>
           </div>
         </div>

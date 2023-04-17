@@ -1,5 +1,5 @@
 <?php
-require('php/constants.php');
+require_once('php/constants.php');
 
 // Check to see if the required data was submitted
 if (!isset($_POST['email'], $_POST['password'])) {
@@ -58,6 +58,7 @@ if ($stmt->num_rows > 0) {
   } else {
     //password was incorrect
     $_SESSION['error'] = 'Password or Email is incorrect';
+
   }
 } else {
   //email does not exist 
