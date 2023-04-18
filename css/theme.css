@@ -6,10 +6,16 @@
   --green: #00daa3;
 }
 
-@media only screen and (hover: none) and (pointer: coarse) {
+/* @media only screen and (hover: none) and (pointer: coarse) {
   :root {
-    font-size: 20px;
+    font-size: 10px;
   }
+} */
+
+@media (max-width: 500px) {
+  :root {
+      font-size: 10px;
+    }
 }
 
 * {
@@ -223,6 +229,7 @@ h3:before {
   display: flex;
   align-items: center;
   background-color: var(--black);
+  z-index: 1;
 }
 
 .image-text:hover {
@@ -243,13 +250,14 @@ h3:before {
   justify-content: center;
   flex-direction: column;
   backdrop-filter: blur(4px);
+  z-index: 10;
 }
 
 #popup-container {
   padding: 20px;
   border: 3px solid var(--black);
   background-color: var(--white);
-  width: clamp(10rem, 40%, 30rem);
+  width: clamp(20rem, 40%, 30rem);
   margin: auto;
   display: flex;
   flex-direction: column;

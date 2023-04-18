@@ -47,6 +47,7 @@ require('php/get_user_movies.php');
   <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/user.css">
+  <script id="DragDropTouch" src="https://bernardo-castilho.github.io/DragDropTouch/DragDropTouch.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', function() {
     var script = document.createElement("script");
