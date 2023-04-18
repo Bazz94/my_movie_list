@@ -5,6 +5,7 @@ require_once('php/constants.php');
 if (!isset($movie_id, $_SESSION['user-id'])) {
   $_SESSION['error'] = 'Required variables not set remove_movie.php';
   header('Location: error.php');
+  exit;
 }
 
 // Get position
@@ -13,6 +14,7 @@ require('php/get_movie_position.php');
 if (!isset($position)) {
   $_SESSION['error'] = 'Get movie position failed';
   header('Location: error.php');
+  exit;
 }
 $old_movie_position = $position;
 
@@ -23,6 +25,7 @@ require('php/update_movie_weight.php');
 if (!isset($successful)) {
   $_SESSION['error'] = 'Update movie weight failed';
   header('Location: error.php');
+  exit;
 }
 
 // Connect to database
@@ -33,6 +36,7 @@ try {
   $_SESSION['error'] = 'Failed to connect to User Database';
   // Get error with $e->getMessage();
   header('Location: error.php');
+  exit;
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
@@ -46,6 +50,7 @@ if (!$stmt) {
     $_SESSION['error'] = "Error preparing sql statement";
     // Get error with mysqli_error($connection)
     header('Location: error.php');
+    exit;
 }
 
 // Execute statement
@@ -56,12 +61,16 @@ if ($stmt->errno) {
   $_SESSION['error'] = "SQL Execution Error";
   // Get error with $stmt->error
   header('Location: error.php');
+  exit;
 }
 
 // Check to see if records were removed
 if ($stmt->affected_rows < 1){
   $_SESSION['error'] = "No rows were removed";
   header('Location: error.php');
+  exit;
+} else {
+
 }
 
 // Close connections

@@ -60,7 +60,7 @@ var userid = document.currentScript.getAttribute('data');
 
     oldId = getMovieFromElement(oldElement);
     newId = getMovieFromElement(newElement);
-    fetch("http://127.0.0.1/my_movie_list/public/php/handleDragAndDrop.php", {
+    fetch("http://127.0.0.1/my_movie_list/php/handleDragAndDrop.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",

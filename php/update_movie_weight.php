@@ -1,10 +1,11 @@
 <?php
-require_once('constants.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/php/constants.php';
 
 // Check that the required variables are assigned 
 if (!isset($new_position, $old_position, $movie_id)) {
   $_SESSION['error'] = 'Required variables not set update_movie_weight.php';
   header('Location: error.php');
+  exit;
 }
 
 // Calculate weight change
@@ -21,6 +22,7 @@ try {
   $_SESSION['error'] = 'Failed to connect to User Database';
   // Get error with $e->getMessage();
   header('Location: error.php');
+  exit;
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
@@ -34,6 +36,7 @@ if (!$stmt) {
     $_SESSION['error'] = "Error preparing sql statement";
     // Get error with mysqli_error($connection)
     header('Location: error.php');
+    exit;
 }
 
 // Execute statement
@@ -44,12 +47,14 @@ if ($stmt->errno) {
   $_SESSION['error'] = "SQL Execution Error";
   // Get error with $stmt->error
   header('Location: error.php');
+  exit;
 }
 
 // Check to see if records were updated
 if ($stmt->affected_rows < 1){
   $_SESSION['error'] = "No rows were updated";
   header('Location: error.php');
+  exit;
 } 
 
 // Close connections

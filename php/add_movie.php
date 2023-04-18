@@ -1,11 +1,11 @@
 <?php
-ob_start();
 require_once('php/constants.php');
 
 // Check that the required variables are assigned 
 if (!isset($_SESSION['user-id'], $_POST['newMovie'], $new_position)) {
   $_SESSION['error'] = 'Required variables not set add_movie.php';
   header('Location: error.php');
+  exit;
 }
 
 $user_id = $_SESSION['user-id'];
@@ -19,9 +19,10 @@ try {
   $_SESSION['error'] = 'Failed to connect to User Database';
   // Get error with $e->getMessage();
   header('Location: error.php');
+  exit;
 }
 
-// See if movie already exists in databasess
+// See if movie already exists in databases
 $stmt = $connection->prepare('SELECT `movie_id` FROM ranking WHERE `movie_id` = ? AND `user_id` = ?');
 
 // Bind parameters (s for string)
@@ -31,6 +32,7 @@ $stmt->bind_param('ss', $movie_id, $user_id);
 if (!$stmt) {
     $_SESSION['error'] = "Error preparing sql statement: " . mysqli_error($connection);
     header('Location: error.php');
+    exit;
 }
 
 // Execute statement
@@ -40,6 +42,7 @@ $stmt->execute();
 if ($stmt->errno) {
   $_SESSION['error'] = "SQL Execution Error: " . $stmt->error;
   header('Location: error.php');
+  exit;
 }
 
 //store to use data
@@ -49,14 +52,16 @@ $stmt->store_result();
 if ($stmt->num_rows != 0) {
   $_SESSION['error'] = 'Movie already exists in list';
   header('Location: user.php');
+  exit;
 }
 
 //update weight in movies
 $old_position = 101;  //this makes the weight 0;
-require('php/update_movie_weight.php'); //requres $new_position to be set
+require('php/update_movie_weight.php'); //requires $new_position to be set
 if (!isset($successful)) {
   $_SESSION['error'] = 'Movie weight updated failed';
   header('Location: error.php');
+  exit;
 }
 
 //connect to database
@@ -67,6 +72,7 @@ try {
   $_SESSION['error'] = 'Failed to connect to User Database';
   // Get error with $e->getMessage();
   header('Location: error.php');
+  exit;
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
@@ -81,6 +87,7 @@ if (!$stmt) {
     $_SESSION['error'] = "Error preparing sql statement";
     // Get error with mysqli_error($connection)
     header('Location: error.php');
+    exit;
 }
 
 // Execute statement
@@ -91,16 +98,17 @@ if ($stmt->errno) {
   $_SESSION['error'] = "SQL Execution Error";
   // Get error with $stmt->error
   header('Location: error.php');
+  exit;
 }
 
 // Check to see if records were updated
 if ($stmt->affected_rows < 1){
   $_SESSION['error'] = "No rows were updated";
   header('Location: error.php');
+  exit;
 }
 
 // Close connections
 $stmt->close();
 $connection->close();
-ob_end_flush();
 ?>

@@ -5,7 +5,6 @@ require_once('php/constants.php');
 if (!isset($_POST['email'], $_POST['username'], $_POST['password'], $_POST['password-Check'])) {
   // Could not get the data that should have been sent.
   $_SESSION['error'] = 'Failed to retrieve form data';
-  error_log("flag10\n", 3, 'C:/xampp/htdocs/my_movie_list/log.log');
   header('Location: signup.php');
 }
 
@@ -17,6 +16,7 @@ try {
   $_SESSION['error'] = 'Failed to connect to User Database';
   // $e->getMessage();
   header('Location: error.php');
+  exit;
 }
 
 // Check to see if email already exists
@@ -31,6 +31,7 @@ if (!$stmt) {
     $_SESSION['error'] = "Error preparing sql statement";
     // mysqli_error($connection)
     header('Location: error.php');
+    exit;
 }
 
 // Execute statement
@@ -41,6 +42,7 @@ if ($stmt->errno) {
   $_SESSION['error'] = "SQL Execution Error";
   // $stmt->error
   header('Location: error.php');
+  exit;
 }
 
 //store to use data
@@ -66,6 +68,7 @@ if ($stmt->num_rows > 0) {
       $_SESSION['error'] = "Error preparing sql statement";
       // mysqli_error($connection)
       header('Location: error.php');
+      exit;
   }
 
   // Execute statement
@@ -76,12 +79,14 @@ if ($stmt->num_rows > 0) {
     $_SESSION['error'] = "SQL Execution Error";
     // $stmt->error
     header('Location: error.php');
+    exit;
   }
 
   // Check to see if records were added
   if ($stmt->affected_rows < 1){
     $_SESSION['error'] = "No rows were added";
     header('Location: error.php');
+    exit;
   } 
 
   // Login the created user

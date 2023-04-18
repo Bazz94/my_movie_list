@@ -8,6 +8,7 @@ require_once('php/get_movies.php');
 // Check if logged in
 if (isset($_SESSION['logged-in'])) {
   header('Location: index.php');
+  exit;
 }
 
 if (isset($_POST['email'], $_POST['password'])) {

@@ -13,6 +13,7 @@ require('get_movie_position.php');
 if (!isset($position)) {
   $_SESSION['error'] = 'Get movie position failed';
   header('Location: error.php');
+  exit;
 }
 $old_movie_position = $position;
 
@@ -21,6 +22,7 @@ require('get_movie_position.php');
 if (!isset($position) || $old_movie_position == $position) {
   $_SESSION['error'] = 'Get movie position failed';
   header('Location: error.php');
+  exit;
 }
 $new_movie_position = $position;
 
@@ -32,6 +34,7 @@ require('update_movie_position.php');
 if (!isset($successful)) {
   $_SESSION['error'] = 'Update movie position failed';
   header('Location: error.php');
+  exit;
 }
 $successful = null;
 
@@ -42,6 +45,7 @@ require('update_movie_weight.php');
 if (!isset($successful)) {
   $_SESSION['error'] = 'Update movie weight failed';
   header('Location: error.php');
+  exit;
 }
 $successful = null;
 
@@ -53,6 +57,7 @@ require('update_movie_position.php');
 if (!isset($successful)) {
   $_SESSION['error'] = 'Update movie position failed';
   header('Location: error.php');
+  exit;
 }
 $successful = null;
 
@@ -63,6 +68,7 @@ require('update_movie_weight.php');
 if (!isset($successful)) {
   $_SESSION['error'] = 'Update movie weight failed';
   header('Location: error.php');
+  exit;
 }
 $successful = null;
 ?>

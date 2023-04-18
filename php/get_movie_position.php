@@ -1,10 +1,11 @@
 <?php
-require_once('php/constants.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/php/constants.php';
 
 //check that the required variables are assigned 
 if (!isset($movie_id, $user_id)) {
   $_SESSION['error'] = 'Required variables not set get_movie_position.php';
   header('Location: error.php');
+  exit;
 }
 
 //connect to database
@@ -15,6 +16,7 @@ try {
   $_SESSION['error'] = 'Failed to connect to User Database';
   // $e->getMessage();
   header('Location: error.php');
+  exit;
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
@@ -27,6 +29,7 @@ $stmt->bind_param('ss', $user_id, $movie_id);
 if (!$stmt) {
     $_SESSION['error'] = "Error preparing sql statement: " . mysqli_error($connection);
     header('Location: error.php');
+    exit;
 }
 
 // Execute statement
@@ -36,6 +39,7 @@ $stmt->execute();
 if ($stmt->errno) {
   $_SESSION['error'] = "SQL Execution Error: " . $stmt->error;
   header('Location: error.php');
+  exit;
 }
 
 //store to use data
@@ -45,6 +49,7 @@ $stmt->store_result();
 if ($stmt->num_rows < 1){
   $_SESSION['error'] = "No rows were found";
   header('Location: error.php');
+  exit;
 }
 
 //Set position to variable

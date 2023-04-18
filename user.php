@@ -6,11 +6,13 @@ session_start();
 if (!isset($_SESSION['community-movies'])) {
   $_SESSION['error'] = 'Failed to connect to Movies Database';
   header('Location: error.php');
+  exit;
 }
 
 // not logged in
 if (!isset($_SESSION['logged-in'])) {
   header('Location: home.php');
+  exit;
 }
 // if pressed logout
 if(isset($_POST['logout'])){

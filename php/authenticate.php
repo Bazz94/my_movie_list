@@ -6,6 +6,7 @@ if (!isset($_POST['email'], $_POST['password'])) {
   // Could not get the data that should have been sent.
   $_SESSION['error'] = 'Failed to retrieve form data';
   header('Location: login.php');
+  exit;
 }
 
 //connect to database
@@ -15,6 +16,7 @@ $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
   // If there is an error with the connection, stop the script and display the error.
   $_SESSION['error'] = 'Failed to connect to the User Database';
   header('Location: error.php');
+  exit;
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
@@ -28,6 +30,7 @@ if (!$stmt) {
     $_SESSION['error'] = "Error preparing sql statement";
     // mysqli_error($connection)
     header('Location: error.php');
+    exit;
 }
 
 // Execute statement
@@ -38,6 +41,7 @@ if ($stmt->errno) {
   $_SESSION['error'] = "SQL Execution Error";
   // $stmt->error
   header('Location: error.php');
+  exit;
 }
 
 //store to use data

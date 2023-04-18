@@ -11,6 +11,7 @@ try {
   $_SESSION['error'] = 'Failed to connect to Movies Database';
   // $e->getMessage();
   header('Location: error.php');
+  exit;
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
@@ -20,6 +21,7 @@ $stmt = $connection->prepare('SELECT `movie_id`, `title`, `date`, `poster` FROM 
 if (!$stmt) {
     $_SESSION['error'] = "Error preparing sql statement: " . mysqli_error($connection);
     header('Location: error.php');
+    exit;
 }
 
 // Execute statement
@@ -29,6 +31,7 @@ $stmt->execute();
 if ($stmt->errno) {
   $_SESSION['error'] = "SQL Execution Error: " . $stmt->error;
   header('Location: error.php');
+  exit;
 }
 
 //store to use data
@@ -38,6 +41,7 @@ $stmt->store_result();
 if ($stmt->num_rows < 1) {
   $_SESSION['error'] = 'There are no movies available';
   header('Location: error.php');
+  exit;
 }
 
 // Set results to an array
