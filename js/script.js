@@ -9,6 +9,7 @@
   const popupBackground = document.getElementById("popup-background");
 
   // Add an event listener to the close button
+try {
   closeButton.addEventListener("click", function () {
     // Set the display property of the popup container to "none"
     popupBackground.style.display = "none";
@@ -18,5 +19,11 @@
     // Set the display property of the popup container to "none"
     popupBackground.style.display = "flex";
   });
+} catch (error) {
+  
+}
+  
+
+  
 
 

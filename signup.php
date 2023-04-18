@@ -1,5 +1,5 @@
 <?php
-require_once 'php/classes.php';
+require_once('php/classes.php');
 session_start();
 
 // Retrieve movies 
@@ -17,11 +17,10 @@ if (isset($_POST['email'], $_POST['password'])) {
     $create_user = false;
   }
   if ($create_user) {
-    echo 'flag1';
-    include('php/create_user.php');  //will go to home.php if completed successfully
-    echo 'flag2';
+    require_once('php/create_user.php');  //will go to home.php if completed successfully
+    if (isset($flag)) {
+    }
   }
-  echo 'flag3';
 }
 ?>
 

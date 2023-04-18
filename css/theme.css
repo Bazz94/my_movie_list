@@ -256,7 +256,7 @@ h3:before {
 }
 
 #close-btn {
-  margin: 0px auto;
+  margin: 0rem auto;
   width: clamp(5rem, 20%, 10rem);
 }
 

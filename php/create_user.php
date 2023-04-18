@@ -2,9 +2,10 @@
 require_once('php/constants.php');
 
 // Check to see if the required data was submitted
-if (!isset($_POST['email'], $_POST['username'], $_POST['password'], $_POST['passwordCheck'])) {
+if (!isset($_POST['email'], $_POST['username'], $_POST['password'], $_POST['password-Check'])) {
   // Could not get the data that should have been sent.
   $_SESSION['error'] = 'Failed to retrieve form data';
+  error_log("flag10\n", 3, 'C:/xampp/htdocs/my_movie_list/log.log');
   header('Location: signup.php');
 }
 
