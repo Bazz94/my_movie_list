@@ -63,4 +63,5 @@ $connection->close();
 
 // Used to check if this script executed successfully
 $successful = true;
+//error_log("flag 3\n", 3, $_SERVER['DOCUMENT_ROOT'].'/my_movie_list/log.log');
 ?>

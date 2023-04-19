@@ -1,44 +1,41 @@
 <?php
-// We need to use sessions, so you should always start sessions using the below code.
 require_once('php/classes.php');
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+// Check to see if the community movies are set
 if (!isset($_SESSION['community-movies'])) {
   $_SESSION['error'] = 'Failed to connect to Movies Database';
   header('Location: error.php');
   exit;
 }
 
-// not logged in
+// Check to see if the user is logged in
 if (!isset($_SESSION['logged-in'])) {
   header('Location: home.php');
   exit;
 }
-// if pressed logout
-if(isset($_POST['logout'])){
-  require('php/logout.php'); // goes to home page
+
+// Check to see if a movie should be removed
+if(isset($_GET['remove-movie'])){
+  $movie_id = $_GET['remove-movie'];
+  require('php/remove_movie.php');
 }
 
-for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
-  $movie_id = $_SESSION['community-movies'][$i]->id;
-  if(isset($_POST[$movie_id])){
-    require('php/remove_movie.php');
-    //get movies from user
-  }
-}
-
+// Check to see if a movie should be added
 if (isset($_POST['newMovie'])) {
   require('php/get_user_movies.php');
   $new_position = count($_SESSION['user-movies']) + 1;
   require_once('php/add_movie.php');
 }
 
+// Get the user movie list
 require('php/get_user_movies.php');
-
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <title>My Movie List</title>
@@ -48,31 +45,17 @@ require('php/get_user_movies.php');
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/user.css">
   <script id="DragDropTouch" src="https://bernardo-castilho.github.io/DragDropTouch/DragDropTouch.js"></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var script = document.createElement("script");
-    script.src = "js/script.js";
-    var dragAndDrop = document.createElement("script");
-    dragAndDrop.src = "js/dragAndDrop.js";
-    dragAndDrop.setAttribute("data", '<?php echo $_SESSION['user-id'];?>');
-    // Append the script element to the document
-    document.body.appendChild(script);
-    document.body.appendChild(dragAndDrop);
-  }, false);
-  </script>
+  <script src="js/popups.js" defer></script>
+  <script src="js/dragAndDrop.js" data="<?php echo $_SESSION['user-id'];?>" defer></script>
+  <script src="js/removeButton.js" data="<?php echo $_SESSION['user-id'];?>" defer></script>
 </head>
 
 <body class="column">
-
   <header>
     <nav class="navbar">
       <a class="nav-title" href="home.php">My Movie List</a>
       <ul class="nav-list">
-        <li>
-          <form id="form-noui" id="last-nav-button" method="post" action="user.php">
-            <input class="nav-buttons" type="submit" name="logout" value="Logout">
-          </form>
-        </li>
+        <li><a class="nav-link" href="home.php?logout=true">Logout</a></li>
         <li><a class="nav-link" href="home.php">Home</a></li>
       </ul>
     </nav>
@@ -89,12 +72,12 @@ require('php/get_user_movies.php');
         for ($i = 0; $i < count($_SESSION['user-movies']); $i++) {
           if ($i < 20) { //limits output
             echo "
-              <form draggable=\"true\" class=\"image-container\" method=\"post\" action=\"user.php\">
-              <h3></h3>
-              <img class=\"image\" src=\"" . $_SESSION['user-movies'][$i]->getPoster() . "\" alt=\"\">
-              <p class=\"image-text\">" . $_SESSION['user-movies'][$i]->to_string() ."</p>
-              <input class=\"remove-btn\" type=\"submit\" name=\"".$_SESSION['user-movies'][$i]->id."\" value=\"Remove\">
-              </form>
+              <div draggable=\"true\" class=\"image-container\">
+                <h3></h3>
+                <img class=\"image\" src=\"".$_SESSION['user-movies'][$i]->getPoster()."\" alt=\"\">
+                <p class=\"image-text\">".$_SESSION['user-movies'][$i]->to_string()."</p>
+                <button id=\"".$_SESSION['user-movies'][$i]->id."\" class=\"remove-btn\">Remove</button>
+              </div>
               ";
           }
         }
@@ -104,10 +87,10 @@ require('php/get_user_movies.php');
           <button id="add-new-btn">Add New</button>
         </div>
       </div>
-      </div>
-      <footer>
-        <label class="footer-label">Designed by Bernard Olivier</label>
-      </footer>
+    </div>
+    <footer>
+      <label class="footer-label">Designed by Bernard Olivier</label>
+    </footer>
   </main>
   <div id="popup-background">
     <form id="popup-container" method="post" action="user.php">

@@ -170,7 +170,6 @@ label {
   width: 80%;
   height: 3rem;
   margin: 0;
-  z-index: 9;
 }
 
 .image-text:hover~.remove-btn {

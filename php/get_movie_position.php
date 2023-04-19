@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/php/constants.php';
+require_once($_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/php/constants.php');
 
 //check that the required variables are assigned 
 if (!isset($movie_id, $user_id)) {
@@ -35,6 +35,7 @@ if (!$stmt) {
 // Execute statement
 $stmt->execute();
 
+
 //check for execution errors
 if ($stmt->errno) {
   $_SESSION['error'] = "SQL Execution Error: " . $stmt->error;
@@ -59,4 +60,5 @@ $stmt->fetch();
 //close connections 
 $stmt->close();
 $connection->close();
+//error_log("flag 1\n", 3, $_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/log.log');
 ?>

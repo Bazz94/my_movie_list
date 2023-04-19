@@ -51,10 +51,13 @@ if ($stmt->affected_rows < 1){
   exit;
 }
 
+
+
 // Close connections
 $stmt->close();
 $connection->close();
 
 // Used to check if this script executed successfully
 $successful = true;
+//error_log("flag 2\n", 3, $_SERVER['DOCUMENT_ROOT'].'/my_movie_list/log.log');
 ?>

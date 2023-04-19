@@ -34,14 +34,7 @@ if (isset($_POST['email'], $_POST['password'])) {
   <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/signup.css">
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var script = document.createElement("script");
-    script.src = "js/script.js";
-    // Append the script element to the document
-    document.body.appendChild(script);
-  }, false);
-  </script>
+  <script src="js/popups.js" defer></script>
 </head>
 
 <body>

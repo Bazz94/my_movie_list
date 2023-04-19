@@ -4,12 +4,16 @@ require_once('php/classes.php');
 session_start();
 
 require_once('php/get_movies.php'); //retrieve movies 
+
+// if pressed logout from user.php
+if(isset($_GET['logout'])){
+  require('php/logout.php'); // redirects to home page
+}
 ?>
 
 
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
   <title>My Movie List</title>
   <meta charset="UTF-8">
@@ -18,7 +22,6 @@ require_once('php/get_movies.php'); //retrieve movies
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/home.css">
 </head>
-
 <body class="column">
   <header>
     <nav class="navbar">

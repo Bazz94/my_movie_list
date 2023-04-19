@@ -1,4 +1,4 @@
-var userid = document.currentScript.getAttribute('data');
+var user_id = document.currentScript.getAttribute('data');
 
 var dragSrcEl = null;
 
@@ -6,6 +6,7 @@ function handleDragStart(e) {
   dragSrcEl = this;
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/html', this.innerHTML);
+
   this.style.transform = 'scale(1.05)';
   this.children[2].style.opacity = '0.9';
   this.children[2].style.transform = 'scale(1.05)';
@@ -51,14 +52,17 @@ function handleDragEnd(e) {
 }
 
 function handleClick(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
   const viewportWidth = window.innerWidth;
-  if (viewportWidth > 500 || this.id == 'add-button' || this.classList[0] == 'remove-btn') {
+  if (viewportWidth > 500) {
     return false;
   }
-  const clickedElement = this.children[2];
-  this.children[3].style.opacity = '1';
+  const clickedElement = this;
   clickedElement.style.opacity = '0.9';
-  var elements = document.querySelectorAll("." + this.children[2].classList[0]);
+  clickedElement.nextElementSibling.style.opacity = '1';
+  var elements = document.querySelectorAll("." + this.classList[0]);
   elements.forEach(function(element) {
     if (clickedElement != element) {
       element.style.opacity = '0';
@@ -75,26 +79,39 @@ items.forEach(function (item) {
   item.addEventListener('dragleave', handleDragLeave, false);
   item.addEventListener('drop', handleDrop, false);
   item.addEventListener('dragend', handleDragEnd, false);
-  item.addEventListener('click',handleClick, false);
 });
 
-function updateDatabase(oldElement, newElement) {
+let clickables = document.querySelectorAll('.image-text');
+clickables.forEach(function (element) {
+  element.addEventListener('touchstart', handleClick, false);
+});
 
-  var oldId = getMovieFromElement(oldElement);
-  var newId = getMovieFromElement(newElement);
-  fetch("http://127.0.0.1/my_movie_list/php/handleDragAndDrop.php", {
+
+
+async function updateDatabase(oldElement, newElement)  {
+  var oldId = oldElement.children[3].id;
+  var newId = newElement.children[3].id;
+  console.log(oldId, ' ', newId);
+  var response = await fetch("http://127.0.0.1/my_movie_list/php/handleDragAndDrop.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
-    body: `old=${oldId}&new=${newId}&user-id=${userid}`,
-  })
-    .then((response) => response.text());
-}
+    body: `old=${oldId}&new=${newId}&user-id=${user_id}`,
+  });
+  // If Request failed
+  if (!response.ok) {
+    window.location.href = "error.php?error=" + response.statusText;
+    return false;
+  }
 
-function getMovieFromElement(element) {
-  var div = document.createElement('div');
-  div.innerHTML = element.innerHTML;
-  var name = div.querySelector('[class^="remove-btn"]').name;
-  return name; //the name of this element is the id of the movie in the db
+  // Request returned ok
+  var responseData = await response.text(); // Get response body as text
+  var data = JSON.parse(responseData); // Parse response body as JSON
+
+  // Check if file executed correctly
+  if(data.status === "error") {
+    window.location.href = "error.php?error=" + data.message;
+    return false;
+  }
 }
