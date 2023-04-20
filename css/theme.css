@@ -1,6 +1,6 @@
 :root {
   --black: #171717;
-  --grey: #444444;
+  --grey: #333333;
   --red: #DA0037;
   --white: #EDEDED;
   --green: #00daa3;
@@ -21,8 +21,6 @@ html {
   display: flex;
   justify-content: center;
   height: 100vh;
-  /* init counter */
-  counter-reset: ranking 0;
 }
 
 body {
@@ -66,23 +64,35 @@ footer {
 h1 {
   font-size: 5rem;
   color: var(--black);
-  letter-spacing: 10px;
+  letter-spacing: 1rem;
   font-weight: normal;
+}
+
+#title-link {
+  font-size: 5rem;
+  color: var(--black);
+  letter-spacing: 1rem;
+  font-weight: normal;
+}
+
+#title-link:hover {
+  color: var(--green);
 }
 
 h2 {
   font-size: 2.5rem;
   color: var(--white);
-  letter-spacing: 3px;
+  letter-spacing: 0.5rem;
   font-weight: normal;
 }
 
 label {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--white);
-  letter-spacing: 2px;
-  padding: 5px;
+  letter-spacing: 0.1rem;
+  padding: 0.3rem;
   text-align: left;
+  font-weight: lighter;
 }
 
 input {
@@ -121,7 +131,6 @@ button:hover {
   opacity: 0.9;
   transform: scale(1.02);
 }
-
 
 a {
   font-size: 1.5rem;
@@ -187,14 +196,6 @@ h3 {
   margin-top: 0.5rem;
   height: 2.0rem;
   align-items: center;
-}
-
-h3:before {
-  counter-increment: ranking 1;
-}
-
-h3:before {
-  content: counter(ranking);
 }
 
 .grid-container {

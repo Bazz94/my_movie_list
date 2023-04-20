@@ -73,7 +73,7 @@ require('php/get_user_movies.php');
           if ($i < 20) { //limits output
             echo "
               <div draggable=\"true\" class=\"image-container\">
-                <h3></h3>
+                <h3>". $i+1 ."</h3>
                 <img class=\"image\" src=\"".$_SESSION['user-movies'][$i]->getPoster()."\" alt=\"\">
                 <p class=\"image-text\">".$_SESSION['user-movies'][$i]->to_string()."</p>
                 <button id=\"".$_SESSION['user-movies'][$i]->id."\" class=\"remove-btn\">Remove</button>

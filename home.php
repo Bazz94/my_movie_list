@@ -21,6 +21,7 @@ if(isset($_GET['logout'])){
   <link rel="icon" type="image/x-icon" href="imgs/favicon.png">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/home.css">
+  <script src="js/mobileClickImage.js" defer></script>
 </head>
 <body class="column">
   <header>
@@ -54,7 +55,7 @@ if(isset($_GET['logout'])){
           if ($i < 30) { //limits output
             echo "
               <div class=\"image-container\">
-              <h3></h3>
+              <h3>". $i+1 ."</h3>
               <img class=\"image\" src=\"" . $_SESSION['community-movies'][$i]->getPoster() . "\" alt=\"\">
               <p class=\"image-text\">" . $_SESSION['community-movies'][$i]->to_string() ."</p>
               </div>

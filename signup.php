@@ -35,13 +35,14 @@ if (isset($_POST['email'], $_POST['password'])) {
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/signup.css">
   <script src="js/popups.js" defer></script>
+  <script src="js/mobileClickImage.js" defer></script>
 </head>
 
 <body>
   <main class="row" id="content">
     <section class="column" id="left-section">
       <section class="center-title-background">
-        <h1 class="title">My Movie List</h1>
+        <a id="title-link" class="title" href="home.php">My Movie List</a>
       </section>
       <section class="login-form">
         <form action="signup.php" method="post">
@@ -69,7 +70,7 @@ if (isset($_POST['email'], $_POST['password'])) {
               if ($i < 9) { //limits output
                 echo "
                   <div class=\"image-container\">
-                  <h3></h3>
+                  <h3>". $i+1 ."</h3>
                   <img class=\"image\" src=\"" . $_SESSION['community-movies'][$i]->getPoster() . "\" alt=\"\">
                   <p class=\"image-text\">" . $_SESSION['community-movies'][$i]->to_string() ."</p>
                   </div>

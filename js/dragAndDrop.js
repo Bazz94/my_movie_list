@@ -33,9 +33,12 @@ function handleDrop(e) {
   if (e.stopPropagation) {
     e.stopPropagation(); // stops the browser from redirecting.
   }
-  if (dragSrcEl != this && this.id != "add-button") {
+  if (dragSrcEl !== this && this.id !== "add-button") {
     dragSrcEl.innerHTML = this.innerHTML;
     this.innerHTML = e.dataTransfer.getData('text/html');
+    var temp = this.children[0].innerHTML;
+    this.children[0].innerHTML = dragSrcEl.children[0].innerHTML;
+    dragSrcEl.children[0].innerHTML = temp;
     updateDatabase(dragSrcEl, this);
   }
   dragSrcEl.style.transform = 'scale(1)';
@@ -62,11 +65,13 @@ function handleClick(e) {
   const clickedElement = this;
   clickedElement.style.opacity = '0.9';
   clickedElement.nextElementSibling.style.opacity = '1';
+  clickedElement.nextElementSibling.style.zIndex = '9';
   var elements = document.querySelectorAll("." + this.classList[0]);
   elements.forEach(function(element) {
     if (clickedElement != element) {
       element.style.opacity = '0';
       element.nextElementSibling.style.opacity = '0';
+      element.nextElementSibling.style.zIndex = '-1';
     }
   });
 }
@@ -83,7 +88,7 @@ items.forEach(function (item) {
 
 let clickables = document.querySelectorAll('.image-text');
 clickables.forEach(function (element) {
-  element.addEventListener('touchstart', handleClick, false);
+  element.addEventListener('click', handleClick, false);
 });
 
 
@@ -91,7 +96,6 @@ clickables.forEach(function (element) {
 async function updateDatabase(oldElement, newElement)  {
   var oldId = oldElement.children[3].id;
   var newId = newElement.children[3].id;
-  console.log(oldId, ' ', newId);
   var response = await fetch("http://127.0.0.1/my_movie_list/php/handleDragAndDrop.php", {
     method: "POST",
     headers: {
