@@ -19,65 +19,36 @@ try {
   exit;
 }
 
-// Check to see if email already exists
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare('SELECT `email` FROM users WHERE `email` = ?'); 
-
-// Bind parameters (s for string)
-$stmt->bind_param('s', $_POST['email']);
-
-//check for prepare statement errors
-if (!$stmt) {
-    $_SESSION['error'] = "Error preparing sql statement";
-    // mysqli_error($connection)
-    header('Location: error.php');
-    exit;
-}
-
-// Execute statement
-$stmt->execute();
-
-//check for execution errors
-if ($stmt->errno) {
-  $_SESSION['error'] = "SQL Execution Error";
-  // $stmt->error
+// See if email already exists
+try {
+  $stmt = $connection->prepare('SELECT `email` FROM users WHERE `email` = ?'); 
+  $stmt->bind_param('s', $_POST['email']);
+  $stmt->execute();
+  $stmt->store_result();
+} catch (mysqli_sql_exception $e) {
+  // If there is an error with the connection, stop the script and display the error.
+  $_SESSION['error'] = 'Failed to execute find email';
+  // $e->getMessage();
   header('Location: error.php');
   exit;
 }
-
-//store to use data
-$stmt->store_result();
 
 // Check to see if email already exist 
 if ($stmt->num_rows > 0) {
   $_SESSION['error'] = 'An account for this email already exists';
 } else {
-
   //Hash password
   $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-  // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-  $stmt = $connection->prepare("INSERT INTO users (`user_id`, `username`, `password`, `email`) 
-    VALUES (UUID_SHORT(), ?, ?, ?) ");
-
-  // Bind parameters (s for string)
-  $stmt->bind_param('sss', $_POST['username'], $password, $_POST['email']);
-
-  //check for prepare statement errors
-  if (!$stmt) {
-      $_SESSION['error'] = "Error preparing sql statement";
-      // mysqli_error($connection)
-      header('Location: error.php');
-      exit;
-  }
-
-  // Execute statement
-  $stmt->execute();
-
-  //check for execution errors
-  if ($stmt->errno) {
-    $_SESSION['error'] = "SQL Execution Error";
-    // $stmt->error
+  try {
+    $stmt = $connection->prepare("INSERT INTO users (`user_id`, `username`, `password`, `email`) 
+      VALUES (UUID_SHORT(), ?, ?, ?) ");
+    $stmt->bind_param('sss', $_POST['username'], $password, $_POST['email']);
+    $stmt->execute();
+  } catch (mysqli_sql_exception $e) {
+    // If there is an error with the connection, stop the script and display the error.
+    $_SESSION['error'] = 'Failed to execute create user';
+    // $e->getMessage();
     header('Location: error.php');
     exit;
   }

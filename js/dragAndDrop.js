@@ -29,23 +29,26 @@ function handleDragLeave(e) {
   this.classList.remove('over');
 }
 
-function handleDrop(e) {
-  // if (e.stopPropagation) {
-  //   e.stopPropagation(); // stops the browser from redirecting.
-  // }
+async function handleDrop(e) {
+  if (e.stopPropagation) {
+    e.stopPropagation(); // stops the browser from redirecting.
+  }
   if (dragSrcEl !== this && this.id !== "add-button") {
     dragSrcEl.innerHTML = this.innerHTML;
     this.innerHTML = e.dataTransfer.getData('text/html');
     var temp = this.children[0].innerHTML;
     this.children[0].innerHTML = dragSrcEl.children[0].innerHTML;
     dragSrcEl.children[0].innerHTML = temp;
-    updateDatabase(dragSrcEl, this);
+    dragSrcEl.style.transform = 'scale(1)';
+    dragSrcEl.children[2].style.opacity = '0';
+    dragSrcEl.children[2].style.transform = 'scale(1)';
+    dragSrcEl.children[3].style.opacity = '0';
+    await updateDatabase(dragSrcEl, this);
   }
   dragSrcEl.style.transform = 'scale(1)';
   dragSrcEl.children[2].style.opacity = '0';
   dragSrcEl.children[2].style.transform = 'scale(1)';
   dragSrcEl.children[3].style.opacity = '0';
-  window.location.href = "user.php";
   return false;
 }
 
@@ -97,26 +100,5 @@ clickables.forEach(function (element) {
 async function updateDatabase(oldElement, newElement)  {
   var oldId = oldElement.children[3].id;
   var newId = newElement.children[3].id;
-  var response = await fetch("http://127.0.0.1/my_movie_list/php/handleDragAndDrop.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-    },
-    body: `old=${oldId}&new=${newId}&user-id=${user_id}`,
-  });
-  // If Request failed
-  if (!response.ok) {
-    window.location.href = "error.php?error=" + response.statusText;
-    return false;
-  }
-
-  // Request returned ok
-  var responseData = await response.text(); // Get response body as text
-  var data = JSON.parse(responseData); // Parse response body as JSON
-
-  // Check if file executed correctly
-  if(data.status === "error") {
-    window.location.href = "error.php?error=" + data.message;
-    return false;
-  }
+  window.location.href = `user.php?old=${oldId}&new=${newId}`;
 }

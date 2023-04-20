@@ -9,7 +9,7 @@ if (!isset($_POST['email'], $_POST['password'])) {
   exit;
 }
 
-//connect to database
+// Connect to database
 try {
 $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 } catch (mysqli_sql_exception $e) {
@@ -19,33 +19,18 @@ $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
   exit;
 }
 
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare('SELECT `user_id`, `password`, `username` FROM users WHERE `email` = ?'); 
-
-// Bind parameters (s for string)
-$stmt->bind_param('s', $_POST['email']);
-
-//check for prepare statement errors
-if (!$stmt) {
-    $_SESSION['error'] = "Error preparing sql statement";
-    // mysqli_error($connection)
-    header('Location: error.php');
-    exit;
-}
-
-// Execute statement
-$stmt->execute();
-
-//check for execution errors
-if ($stmt->errno) {
-  $_SESSION['error'] = "SQL Execution Error";
-  // $stmt->error
+// Look for email in database
+try {
+  $stmt = $connection->prepare('SELECT `user_id`, `password`, `username` FROM users WHERE `email` = ?'); 
+  $stmt->bind_param('s', $_POST['email']);
+  $stmt->execute();
+  $stmt->store_result();
+} catch (mysqli_sql_exception $e) {
+  // If there is an error with the connection, stop the script and display the error.
+  $_SESSION['error'] = 'Failed to execute authenticate user';
   header('Location: error.php');
   exit;
 }
-
-//store to use data
-$stmt->store_result();
 
 //Check if account was found in database
 if ($stmt->num_rows > 0) {

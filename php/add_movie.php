@@ -22,81 +22,33 @@ try {
   exit;
 }
 
-// See if movie already exists in databases
-$stmt = $connection->prepare('SELECT `movie_id` FROM ranking WHERE `movie_id` = ? AND `user_id` = ?');
-
-// Bind parameters (s for string)
-$stmt->bind_param('ss', $movie_id, $user_id);
-
-//check for errors
-if (!$stmt) {
-    $_SESSION['error'] = "Error preparing sql statement: " . mysqli_error($connection);
-    header('Location: error.php');
-    exit;
-}
-
-// Execute statement
-$stmt->execute();
-
-//check for execution errors
-if ($stmt->errno) {
-  $_SESSION['error'] = "SQL Execution Error: " . $stmt->error;
+// Check to see if movie already exists in database
+try {
+  $stmt = $connection->prepare('SELECT `movie_id` FROM ranking WHERE `movie_id` = ? AND `user_id` = ?');
+  $stmt->bind_param('ss', $movie_id, $user_id);
+  $stmt->execute();
+  $stmt->store_result();
+} catch (mysqli_sql_exception $e) {
+  $_SESSION['error'] = 'Failed to execute add movies';
   header('Location: error.php');
   exit;
 }
 
-//store to use data
-$stmt->store_result();
-
-//Check to see if the movie already exists
+// Check result
 if ($stmt->num_rows != 0) {
   $_SESSION['error'] = 'Movie already exists in list';
   header('Location: user.php');
   exit;
 }
 
-//update weight in movies
-$old_position = 101;  //this makes the weight 0;
-require('php/update_movie_weight.php'); //requires $new_position to be set
-if (!isset($successful)) {
-  $_SESSION['error'] = 'Movie weight updated failed';
-  header('Location: error.php');
-  exit;
-}
-
-//connect to database
+// Prepare and execute
 try {
-  $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+  $stmt = $connection->prepare("INSERT INTO ranking (`user_id`, `movie_id`, `position`) 
+                                Select ?, ?, (SELECT COUNT(*) + 1 FROM ranking WHERE `user_id` = ?)");
+  $stmt->bind_param('sss', $user_id, $movie_id, $user_id);
+  $stmt->execute();
 } catch (mysqli_sql_exception $e) {
-  // If there is an error with the connection, stop the script and display the error.
-  $_SESSION['error'] = 'Failed to connect to User Database';
-  // Get error with $e->getMessage();
-  header('Location: error.php');
-  exit;
-}
-
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare("INSERT INTO ranking (`user_id`, `movie_id`, `position`) 
-  Select ?, ?, (SELECT COUNT(*) + 1 FROM ranking WHERE `user_id` = ?)");
-
-// Bind parameters (s for string)
-$stmt->bind_param('sss', $user_id, $movie_id, $user_id);
-
-//check for prepare statement errors
-if (!$stmt) {
-    $_SESSION['error'] = "Error preparing sql statement";
-    // Get error with mysqli_error($connection)
-    header('Location: error.php');
-    exit;
-}
-
-// Execute statement
-$stmt->execute();
-
-//check for execution errors
-if ($stmt->errno) {
-  $_SESSION['error'] = "SQL Execution Error";
-  // Get error with $stmt->error
+  $_SESSION['error'] = 'Failed to execute add movies';
   header('Location: error.php');
   exit;
 }
@@ -111,4 +63,13 @@ if ($stmt->affected_rows < 1){
 // Close connections
 $stmt->close();
 $connection->close();
+
+//update weight in movies
+$old_position = 101;  //this makes the weight 0;
+require('php/update_movie_weight.php'); //requires $new_position to be set
+if (!isset($successful)) {
+  $_SESSION['error'] = 'Movie weight updated failed';
+  header('Location: error.php');
+  exit;
+}
 ?>

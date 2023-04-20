@@ -13,34 +13,21 @@ $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
   exit;
 }
 
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare('SELECT movies.movie_id, movies.title, movies.date, movies.poster
-                              FROM ranking
-                              JOIN movies ON ranking.movie_id = movies.movie_id
-                              WHERE ranking.user_id = ?
-                              ORDER BY ranking.position'); 
-
-$stmt->bind_param('s', $_SESSION['user-id']);
-
-//check for errors
-if (!$stmt) {
-    $_SESSION['error'] = "Error preparing sql statement: " . mysqli_error($connection);
-    header('Location: error.php');
-    exit;
-}
-
-// Execute statement
-$stmt->execute();
-
-//check for execution errors
-if ($stmt->errno) {
-  $_SESSION['error'] = "SQL Execution Error: " . $stmt->error;
+// Get user movie list
+try {
+  $stmt = $connection->prepare('SELECT movies.movie_id, movies.title, movies.date, movies.poster
+                                FROM ranking
+                                JOIN movies ON ranking.movie_id = movies.movie_id
+                                WHERE ranking.user_id = ?
+                                ORDER BY ranking.position'); 
+  $stmt->bind_param('s', $_SESSION['user-id']);
+  $stmt->execute();
+  $stmt->store_result();
+} catch (mysqli_sql_exception $e) {
+  $_SESSION['error'] = 'Failed to execute get user movie list';
   header('Location: error.php');
   exit;
 }
-
-//store to use data
-$stmt->store_result();
 
 // Set results to an array
 $stmt->bind_result($movieid, $title, $date, $poster);

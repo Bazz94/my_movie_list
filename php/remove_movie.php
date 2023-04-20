@@ -18,16 +18,6 @@ if (!isset($position)) {
 }
 $old_movie_position = $position;
 
-// Update weight in movies
-$new_position = 101;  //this makes the weight 0;
-$old_position = $old_movie_position; 
-require('php/update_movie_weight.php');
-if (!isset($successful)) {
-  $_SESSION['error'] = 'Update movie weight failed';
-  header('Location: error.php');
-  exit;
-}
-
 // Connect to database
 try {
   $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -39,27 +29,13 @@ try {
   exit;
 }
 
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare("DELETE FROM ranking WHERE `user_id` = ? AND `movie_id` = ?");
-
-// Bind parameters (s for string)
-$stmt->bind_param('ss', $user_id, $movie_id);
-
-// Check for prepare statement errors
-if (!$stmt) {
-    $_SESSION['error'] = "Error preparing sql statement";
-    // Get error with mysqli_error($connection)
-    header('Location: error.php');
-    exit;
-}
-
-// Execute statement
-$stmt->execute();
-
-// Check for execution errors
-if ($stmt->errno) {
-  $_SESSION['error'] = "SQL Execution Error";
-  // Get error with $stmt->error
+// Remove movie from user list
+try {
+  $stmt = $connection->prepare("DELETE FROM ranking WHERE `user_id` = ? AND `movie_id` = ?");
+  $stmt->bind_param('ss', $user_id, $movie_id);
+  $stmt->execute();
+} catch (mysqli_sql_exception $e) {
+  $_SESSION['error'] = 'Failed to executer remove movie';
   header('Location: error.php');
   exit;
 }
@@ -69,11 +45,19 @@ if ($stmt->affected_rows < 1){
   $_SESSION['error'] = "No rows were removed";
   header('Location: error.php');
   exit;
-} else {
-
 }
 
 // Close connections
 $stmt->close();
 $connection->close();
+
+// Update weight in movies
+$new_position = 101;  //this makes the weight 0;
+$old_position = $old_movie_position; 
+require('php/update_movie_weight.php');
+if (!isset($successful)) {
+  $_SESSION['error'] = 'Update movie weight failed';
+  header('Location: error.php');
+  exit;
+}
 ?>

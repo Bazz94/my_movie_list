@@ -14,37 +14,22 @@ try {
 } catch (mysqli_sql_exception $e) {
   // If there is an error with the connection, stop the script and display the error.
   $_SESSION['error'] = 'Failed to connect to User Database';
-  // $e->getMessage();
   header('Location: error.php');
   exit;
 }
 
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare("SELECT `position` FROM ranking WHERE `user_id` = ? AND `movie_id` = ?");
-
-// Bind parameters (s for string)
-$stmt->bind_param('ss', $user_id, $movie_id);
-
-//check for prepare statement errors
-if (!$stmt) {
-    $_SESSION['error'] = "Error preparing sql statement: " . mysqli_error($connection);
-    header('Location: error.php');
-    exit;
-}
-
-// Execute statement
-$stmt->execute();
-
-
-//check for execution errors
-if ($stmt->errno) {
-  $_SESSION['error'] = "SQL Execution Error: " . $stmt->error;
+// Get position of movie
+try {
+  $stmt = $connection->prepare("SELECT `position` FROM ranking WHERE `user_id` = ? AND `movie_id` = ?");
+  $stmt->bind_param('ss', $user_id, $movie_id);
+  $stmt->execute();
+  $stmt->store_result();
+} catch (mysqli_sql_exception $e) {
+  // If there is an error with the connection, stop the script and display the error.
+  $_SESSION['error'] = 'Failed to executer get position';
   header('Location: error.php');
   exit;
 }
-
-//store to use data
-$stmt->store_result();
 
 // Check to see if records were found
 if ($stmt->num_rows < 1){
@@ -60,5 +45,4 @@ $stmt->fetch();
 //close connections 
 $stmt->close();
 $connection->close();
-//error_log("flag 1\n", 3, $_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/log.log');
 ?>

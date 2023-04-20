@@ -1,9 +1,8 @@
-<?php
+<?php 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/php/constants.php';
 
-// Check that the required variables are assigned 
-if (!isset($movie_id, $movie_position, $user_id)) {
-  $_SESSION['error'] = 'Required variables not set update_movie_position.php';
+if (!isset($new_movie_position, $old_movie_position)) {
+  $_SESSION['error'] = 'Get movie position failed';
   header('Location: error.php');
   exit;
 }
@@ -19,15 +18,28 @@ try {
   exit;
 }
 
-// Update the position of a movie in the user movie list
+$connection->begin_transaction();
+
 try {
+  $temp = 101;
+  // Set old to temp
   $stmt = $connection->prepare("UPDATE ranking SET `position` = ? WHERE `user_id` = ? AND `movie_id` = ?");
-  $stmt->bind_param('sss',$movie_position ,$user_id, $movie_id);
+  $stmt->bind_param('sss',$temp ,$user_id, $old);
   $stmt->execute();
+  // Set new to old
+  $stmt = $connection->prepare("UPDATE ranking SET `position` = ? WHERE `user_id` = ? AND `movie_id` = ?");
+  $stmt->bind_param('sss',$old_movie_position ,$user_id, $new);
+  $stmt->execute();
+  // Set old to new
+  $stmt = $connection->prepare("UPDATE ranking SET `position` = ? WHERE `user_id` = ? AND `movie_id` = ?");
+  $stmt->bind_param('sss',$new_movie_position ,$user_id, $old);
+  $stmt->execute();
+
+  $connection->commit();
 } catch (mysqli_sql_exception $e) {
-  // If there is an error with the connection, stop the script and display the error.
-  $_SESSION['error'] = 'Failed to connect to User Database';
-  // Get error with $e->getMessage();
+  $connection->rollback();
+  $_SESSION['error'] = "Error executing swap movie positions";
+  // Get error with mysqli_error($connection)
   header('Location: error.php');
   exit;
 }

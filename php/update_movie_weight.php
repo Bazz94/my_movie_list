@@ -25,27 +25,15 @@ try {
   exit;
 }
 
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare("UPDATE movies SET `weight` = ROUND(`weight` + ?,2) WHERE `movie_id` = ?");
-
-// Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-$stmt->bind_param('ds',$change ,$movie_id);
-
-//check for prepare statement errors
-if (!$stmt) {
-    $_SESSION['error'] = "Error preparing sql statement";
-    // Get error with mysqli_error($connection)
-    header('Location: error.php');
-    exit;
-}
-
-// Execute statement
-$stmt->execute();
-
-// Check for execution errors
-if ($stmt->errno) {
-  $_SESSION['error'] = "SQL Execution Error";
-  // Get error with $stmt->error
+// Update movie weight in movies database
+try {
+  $stmt = $connection->prepare("UPDATE movies SET `weight` = ROUND(`weight` + ?,2) WHERE `movie_id` = ?");
+  $stmt->bind_param('ds',$change ,$movie_id);
+  $stmt->execute();  
+} catch (mysqli_sql_exception $e) {
+  // If there is an error with the connection, stop the script and display the error.
+  $_SESSION['error'] = 'Failed to execute update movie database';
+  // Get error with $e->getMessage();
   header('Location: error.php');
   exit;
 }
@@ -63,5 +51,4 @@ $connection->close();
 
 // Used to check if this script executed successfully
 $successful = true;
-//error_log("flag 3\n", 3, $_SERVER['DOCUMENT_ROOT'].'/my_movie_list/log.log');
 ?>

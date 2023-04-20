@@ -21,6 +21,7 @@ if (!isset($_SESSION['logged-in'])) {
 if(isset($_GET['remove-movie'])){
   $movie_id = $_GET['remove-movie'];
   require('php/remove_movie.php');
+  header('Location: user.php');
 }
 
 // Check to see if a movie should be added
@@ -28,6 +29,13 @@ if (isset($_POST['newMovie'])) {
   require('php/get_user_movies.php');
   $new_position = count($_SESSION['user-movies']) + 1;
   require_once('php/add_movie.php');
+}
+
+if (isset($_GET['new'],$_GET['old'])) {
+  $old = $_GET['new'];
+  $new = $_GET['old'];
+  require('php/handleDragAndDrop.php');
+  header('Location: user.php');
 }
 
 // Get the user movie list

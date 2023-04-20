@@ -14,30 +14,18 @@ try {
   exit;
 }
 
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-$stmt = $connection->prepare('SELECT `movie_id`, `title`, `date`, `poster` FROM movies ORDER BY `weight` DESC, `title` ASC LIMIT 100');
-
-//check for errors
-if (!$stmt) {
-    $_SESSION['error'] = "Error preparing sql statement: " . mysqli_error($connection);
-    header('Location: error.php');
-    exit;
-}
-
-// Execute statement
-$stmt->execute();
-
-//check for execution errors
-if ($stmt->errno) {
-  $_SESSION['error'] = "SQL Execution Error: " . $stmt->error;
+// Get movies in movie database 
+try {
+  $stmt = $connection->prepare('SELECT `movie_id`, `title`, `date`, `poster` FROM movies ORDER BY `weight` DESC, `title` ASC LIMIT 100');
+  $stmt->execute();
+  $stmt->store_result();
+} catch (mysqli_sql_exception $e) {
+  $_SESSION['error'] = 'Failed to execute get movies';
   header('Location: error.php');
   exit;
 }
 
-//store to use data
-$stmt->store_result();
-
-//Check to see if any rows were affected
+// Check result
 if ($stmt->num_rows < 1) {
   $_SESSION['error'] = 'There are no movies available';
   header('Location: error.php');
