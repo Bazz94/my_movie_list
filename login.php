@@ -51,7 +51,7 @@ if (isset($_POST['email'], $_POST['password'])) {
       </section>
     </section>
     <section class="column">
-      <section class="center" id="center-grid">
+      <section class="center">
         <div class="grid-container">
           <?php 
             require_once 'php/classes.php';
