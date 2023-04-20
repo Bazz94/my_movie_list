@@ -30,9 +30,9 @@ function handleDragLeave(e) {
 }
 
 function handleDrop(e) {
-  if (e.stopPropagation) {
-    e.stopPropagation(); // stops the browser from redirecting.
-  }
+  // if (e.stopPropagation) {
+  //   e.stopPropagation(); // stops the browser from redirecting.
+  // }
   if (dragSrcEl !== this && this.id !== "add-button") {
     dragSrcEl.innerHTML = this.innerHTML;
     this.innerHTML = e.dataTransfer.getData('text/html');
@@ -45,6 +45,7 @@ function handleDrop(e) {
   dragSrcEl.children[2].style.opacity = '0';
   dragSrcEl.children[2].style.transform = 'scale(1)';
   dragSrcEl.children[3].style.opacity = '0';
+  window.location.href = "user.php";
   return false;
 }
 
