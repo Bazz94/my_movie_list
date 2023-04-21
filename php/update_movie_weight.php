@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors',1); 
+error_reporting(E_ALL);
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/php/constants.php';
 
 // Check that the required variables are assigned 
@@ -27,7 +31,7 @@ try {
 
 // Update movie weight in movies database
 try {
-  $stmt = $connection->prepare("UPDATE movies SET `weight` = ROUND(`weight` + ?,2) WHERE `movie_id` = ?");
+  $stmt = $connection->prepare("UPDATE movies SET `weight` = `weight` + ? WHERE `movie_id` = ?");
   $stmt->bind_param('ds',$change ,$movie_id);
   $stmt->execute();  
 } catch (mysqli_sql_exception $e) {

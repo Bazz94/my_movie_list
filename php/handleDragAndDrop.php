@@ -27,7 +27,6 @@ if (!isset($position) || $old_movie_position == $position) {
 }
 $new_movie_position = $position;
 
-
 // Update positions in db
 require('swap_movie_positions.php');
 if (!isset($successful)) {
@@ -38,6 +37,7 @@ if (!isset($successful)) {
 $successful = null;
 
 // Update weight in movies
+$movie_id = $old;
 $new_position = $new_movie_position;
 $old_position = $old_movie_position;
 require('update_movie_weight.php');
@@ -49,6 +49,7 @@ if (!isset($successful)) {
 $successful = null;
 
 // Update weight in movies
+$movie_id = $new;
 $new_position = $old_movie_position;
 $old_position = $new_movie_position;
 require('update_movie_weight.php');

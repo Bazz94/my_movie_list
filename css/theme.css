@@ -103,6 +103,7 @@ input {
   border-color: var(--black);
   letter-spacing: 0.1rem;
   display: inline-block;
+  border-style: solid;
 }
 
 input:focus {
@@ -125,6 +126,7 @@ button {
   border-width: 3px;
   letter-spacing: 0.1rem;
   box-shadow: none;
+  border-style: solid;
 }
 
 button:hover {

@@ -33,16 +33,12 @@ async function handleDrop(e) {
   if (e.stopPropagation) {
     e.stopPropagation(); // stops the browser from redirecting.
   }
-  if (dragSrcEl !== this && this.id !== "add-button") {
+  if (this.id !== "add-button" && dragSrcEl.children[3].id !== this.children[3].id) {
     dragSrcEl.innerHTML = this.innerHTML;
     this.innerHTML = e.dataTransfer.getData('text/html');
     var temp = this.children[0].innerHTML;
     this.children[0].innerHTML = dragSrcEl.children[0].innerHTML;
     dragSrcEl.children[0].innerHTML = temp;
-    dragSrcEl.style.transform = 'scale(1)';
-    dragSrcEl.children[2].style.opacity = '0';
-    dragSrcEl.children[2].style.transform = 'scale(1)';
-    dragSrcEl.children[3].style.opacity = '0';
     await updateDatabase(dragSrcEl, this);
   }
   dragSrcEl.style.transform = 'scale(1)';
@@ -56,6 +52,10 @@ function handleDragEnd(e) {
   items.forEach(function (item) {
     item.classList.remove('over');
   });
+  dragSrcEl.style.transform = 'scale(1)';
+  dragSrcEl.children[2].style.opacity = '0';
+  dragSrcEl.children[2].style.transform = 'scale(1)';
+  dragSrcEl.children[3].style.opacity = '0';
 }
 
 function handleClick(e) {
