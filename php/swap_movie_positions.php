@@ -1,5 +1,5 @@
 <?php 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/php/constants.php';
+require_once('php/constants.php');
 
 if (!isset($new_movie_position, $old_movie_position)) {
   $_SESSION['error'] = 'Get movie position failed';

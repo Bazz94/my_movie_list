@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/php/constants.php');
+require_once('php/constants.php');
 
 //check that the required variables are assigned 
 if (!isset($movie_id, $user_id)) {

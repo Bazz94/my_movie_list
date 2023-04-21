@@ -1,9 +1,5 @@
 <?php
-ini_set('display_errors',1); 
-error_reporting(E_ALL);
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-require_once $_SERVER['DOCUMENT_ROOT'] . '/my_movie_list/php/constants.php';
+require_once('php/constants.php');
 
 // Check that the required variables are assigned 
 if (!isset($new_position, $old_position, $movie_id)) {
