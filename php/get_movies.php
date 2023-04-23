@@ -16,7 +16,7 @@ try {
 
 // Get movies in movie database 
 try {
-  $stmt = $connection->prepare('SELECT `movie_id`, `title`, `date`, `poster` FROM movies ORDER BY `weight` DESC, `title` ASC LIMIT 100');
+  $stmt = $connection->prepare('SELECT `movie_id`, `title`, `date`, `poster` FROM movies ORDER BY `weight` DESC, `title` ASC');
   $stmt->execute();
   $stmt->store_result();
 } catch (mysqli_sql_exception $e) {

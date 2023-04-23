@@ -77,8 +77,10 @@ require('php/get_user_movies.php');
         <?php 
         require_once('php/classes.php');
         require_once('php/get_user_movies.php');
+        $count = 0;
         for ($i = 0; $i < count($_SESSION['user-movies']); $i++) {
-          if ($i < 20) { //limits output
+          $count = $i;
+          if ($i < 30) { //limits output
             echo "
               <div draggable=\"true\" class=\"image-container\">
                 <h3>". $i+1 ."</h3>
@@ -89,11 +91,15 @@ require('php/get_user_movies.php');
               ";
           }
         }
+        if ($count < 30) {
+          echo "
+            <div id=\"add-button\" class=\"image-container\">
+              <h4> </h4>
+              <button id=\"add-new-btn\">Add New</button>
+            </div>
+          ";
+        }
         ?>
-        <div id="add-button" class="image-container">
-          <h4> </h4>
-          <button id="add-new-btn">Add New</button>
-        </div>
       </div>
     </div>
     <footer>
