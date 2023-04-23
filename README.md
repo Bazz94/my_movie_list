@@ -20,7 +20,6 @@ I created this project to learn about the basics of web development. I will also
 ### Limitations
 * There is no admin interface to add movies to the database.
 * Since PHP was used for the backend, the database can only be updated if the page is refreshed. So this means the page gets refreshed after certain user actions.
-* The user movies lists can have as many movies are the database has, if the database is large then the user page would need to have a limit implemented.
 * There is no was to recovery or reset a password.
 * There is no email verification.
 
