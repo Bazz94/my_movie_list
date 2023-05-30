@@ -15,7 +15,7 @@ I used HTML, CSS, PHP, MySQL and a bit of Javascript to make this website.
 3. The Users page lets users add or remove movies from thier list, as well as change the order of movies.
 
 ### Why
-I created this project to learn about the basics of web development. I will also add it to my dev portfolio.
+I created this project to learn about the basics of web development.
 
 ### Database Structure
 #### Movies Table
