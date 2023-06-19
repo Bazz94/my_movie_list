@@ -1,6 +1,7 @@
 # my_movie_list
 ### Description
-A website that lets you rank your favorite movies and shows a community ranking made from all the users lists combined.
+A website that enables you to rank your favorite movies and also generates a community ranking based on the combined lists of all users.
+This project was created with the intention of learning the fundamentals of web development. The website is responsive and functions effectively on mobile devices.
 
 ### Images
 ![mymovielistHome](https://user-images.githubusercontent.com/88403974/233849729-365f643e-b4a2-489b-a760-d1973e322a89.png)
