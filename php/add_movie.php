@@ -2,14 +2,15 @@
 require_once('php/constants.php');
 
 // Check that the required variables are assigned 
-if (!isset($_SESSION['user-id'], $_POST['newMovie'], $new_position)) {
+if (!isset($_SESSION['user-id'], $movie_id, $new_position)) {
   $_SESSION['error'] = 'Required variables not set add_movie.php';
   header('Location: error.php');
   exit;
 }
 
 $user_id = $_SESSION['user-id'];
-$movie_id = $_POST['newMovie'];
+
+error_log($movie_id);
 
 //connect to database
 try {

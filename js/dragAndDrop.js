@@ -7,10 +7,9 @@ function handleDragStart(e) {
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/html', this.innerHTML);
 
-  this.style.transform = 'scale(1.05)';
-  this.children[2].style.opacity = '0.9';
-  this.children[2].style.transform = 'scale(1.05)';
-  this.children[3].style.opacity = '0';
+  this.classList.add('dragging-image-container');
+  this.children[2].classList.add('dragging-image-text');
+  this.children[3].classList.add('dragging-button');
 }
 
 function handleDragOver(e) {
@@ -41,10 +40,9 @@ async function handleDrop(e) {
     dragSrcEl.children[0].innerHTML = temp;
     await updateDatabase(dragSrcEl, this);
   }
-  dragSrcEl.style.transform = 'scale(1)';
-  dragSrcEl.children[2].style.opacity = '0';
-  dragSrcEl.children[2].style.transform = 'scale(1)';
-  dragSrcEl.children[3].style.opacity = '0';
+  this.classList.remove('dragging-image-container');
+  this.children[2].classList.remove('dragging-image-text');
+  this.children[3].classList.remove('dragging-button');
   return false;
 }
 
@@ -52,10 +50,9 @@ function handleDragEnd(e) {
   items.forEach(function (item) {
     item.classList.remove('over');
   });
-  dragSrcEl.style.transform = 'scale(1)';
-  dragSrcEl.children[2].style.opacity = '0';
-  dragSrcEl.children[2].style.transform = 'scale(1)';
-  dragSrcEl.children[3].style.opacity = '0';
+  this.classList.remove('dragging-image-container');
+  this.children[2].classList.remove('dragging-image-text');
+  this.children[3].classList.remove('dragging-button');
 }
 
 function handleClick(e) {

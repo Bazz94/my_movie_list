@@ -34,3 +34,9 @@ movie_posters/war_dogs.jpg
 movie_posters/
 php/constants.php
 log.log
+js/.eslintrc.json
+js/package-lock.json
+js/node_modules
+js/package.json
+.vs
+.vscode

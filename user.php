@@ -25,7 +25,8 @@ if(isset($_GET['remove-movie'])){
 }
 
 // Check to see if a movie should be added
-if (isset($_POST['newMovie'])) {
+if (isset($_GET['newMovie'])) {
+  $movie_id = $_GET['newMovie'];
   require('php/get_user_movies.php');
   $new_position = count($_SESSION['user-movies']) + 1;
   require_once('php/add_movie.php');
@@ -35,11 +36,29 @@ if (isset($_GET['new'],$_GET['old'])) {
   $old = $_GET['new'];
   $new = $_GET['old'];
   require('php/handleDragAndDrop.php');
-  header('Location: user.php');
 }
 
 // Get the user movie list
 require('php/get_user_movies.php');
+
+// Make list of movies that can be added
+$list_ids = array(); 
+$list_names = array();
+require_once('php/classes.php');
+for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
+  $alreadyAdded = false;
+  for ($j = 0; $j < count($_SESSION['user-movies']); $j++) {
+    if ($_SESSION['community-movies'][$i]->id == $_SESSION['user-movies'][$j]->id) {
+      $alreadyAdded = true;
+    }
+  }
+  if (!$alreadyAdded) {
+    array_push($list_ids,$_SESSION['community-movies'][$i]->id);
+    array_push($list_names,$_SESSION['community-movies'][$i]->to_string());
+  }
+}
+$jsonList_ids = json_encode($list_ids);
+$jsonList_names = json_encode($list_names);
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +75,13 @@ require('php/get_user_movies.php');
   <script src="js/popups.js" defer></script>
   <script src="js/dragAndDrop.js" data="<?php echo $_SESSION['user-id'];?>" defer></script>
   <script src="js/removeButton.js" data="<?php echo $_SESSION['user-id'];?>" defer></script>
+  <script>
+    // pass php list to js
+    var list_ids = <?php echo $jsonList_ids; ?>;
+    var list_names = <?php echo $jsonList_names; ?>;
+    // to be used in searchBar.js
+  </script>
+  <script src='js/searchBar.js' defer></script>
 </head>
 
 <body class="column">
@@ -107,30 +133,15 @@ require('php/get_user_movies.php');
     </footer>
   </main>
   <div id="popup-background">
-    <form id="popup-container" method="post" action="user.php">
+    <div id="popup-container">
       <h2>Pick a Movie</h2>
-      <label class="labels" for="new-movie"><b>Movies</b></label>
-      <select class="select" name="newMovie">
-        <?php 
-        require_once('php/classes.php');
-        for ($i = 0; $i < count($_SESSION['community-movies']); $i++) {
-          $alreadyAdded = false;
-          for ($j = 0; $j < count($_SESSION['user-movies']); $j++) {
-            if ($_SESSION['community-movies'][$i]->id == $_SESSION['user-movies'][$j]->id) {
-              $alreadyAdded = true;
-            }
-          }
-          if (!$alreadyAdded) {
-            echo "
-              <option value=\"". $_SESSION['community-movies'][$i]->id ."\">".$_SESSION['community-movies'][$i]->to_string()."</option>
-              ";
-          }
-        }
-        ?>
-      </select>
+      <label class="labels"><b>Movies</b></label>
+      <div class="autocomplete">
+        <input id="myInput" class='' type="text" placeholder="Search a movie">
+      </div>
       <button type="submit" id="ok-btn">Ok</button>
       <button type="button" id="close-btn">Close</button>
-    </form>
+    </div>
   </div>
 </body>
 
