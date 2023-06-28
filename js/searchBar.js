@@ -8,12 +8,14 @@ for (let index in list_ids) {
 
 
 // Search bar autocomplete
+// autocomplete function modified from
+// https://www.w3schools.com/howto/howto_js_autocomplete.asp 
 function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
 the text field element and an array of possible autocompleted values:*/
   var currentFocus;
   /*execute a function when someone writes in the text field:*/
-  inp.addEventListener("input", function (e) {
+  inp.addEventListener("input", function () {
     var a, b, i, val = this.value;
     /*close any already open lists of autocompleted values*/
     closeAllLists();
@@ -37,7 +39,7 @@ the text field element and an array of possible autocompleted values:*/
         /*insert a input field that will hold the current array item's value:*/
         b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
         /*execute a function when someone clicks on the item value (DIV element):*/
-        b.addEventListener("click", function (e) {
+        b.addEventListener("click", function () {
           /*insert the value for the autocomplete text field:*/
           inp.value = this.getElementsByTagName("input")[0].value;
           /*close the list of autocompleted values,
@@ -121,4 +123,4 @@ okButton.addEventListener('click', () => {
     movieInput.value = '';
     movieInput.placeholder = 'Not found';
   }
-})
+});
